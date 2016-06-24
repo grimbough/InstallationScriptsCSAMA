@@ -2,17 +2,18 @@
 ## Installation script for CSAMA 2015
 ##------------------------------------------------------------
 
-.required_R_version = "3.2.0"
-.required_Bioc_version = "3.1"
-.Bioc_devel_version = "3.2"
-
+.required_R_version = "3.3.0"
+.required_Bioc_version = "3.3"
+.Bioc_devel_version = "3.4"
+.required_rstudio_version = "0.99.1241"
+.rstudio_url="https://www.rstudio.com/products/rstudio/download/preview/"
 options(warn = 1)
-.baseurl = "http://www-huber.embl.de"
+#.baseurl = "http://www-huber.embl.de"
 .yr = format(Sys.Date(), "%y")
-
 ## Check memory size
 pattern = "[0-9]+"
 min_mem = 4
+
 mem =
   switch(.Platform$OS.type,         
          unix = 
@@ -44,13 +45,35 @@ if (is.null(mem)) {
 
 ## Check the R version
 R_version = paste(R.version$major, R.version$minor, sep=".")
-if(R_version != .required_R_version && R_version != "3.2.1")
+if(R_version != .required_R_version )
   stop(sprintf("You are using a version of R different than the one required for CSAMA'%s, please install R-%s", .yr, .required_R_version))
 
 ## Install Bioconductor
 source("http://bioconductor.org/biocLite.R")
 chooseBioCmirror()
 chooseCRANmirror()
+
+.baseurl = biocinstallRepos()
+
+### Check Rstudio version
+hasApistudio = suppressWarnings(require("rstudioapi", quietly=TRUE))
+if( !hasApistudio ){
+  biocLite("rstudioapi", suppressUpdates=TRUE, siteRepos = .baseurl)
+  suppressWarnings(require("rstudioapi", quietly=TRUE))
+}
+
+.rstudioVersion = try( rstudioapi::versionInfo()$version, silent=TRUE )
+if( inherits( .rstudioVersion, "try-error" ) ){
+  .rstudioVersion = gsub("\n|Error : ", "", .rstudioVersion)
+  rstudioError = sprintf("The following error was produced while checking your Rstudio version: \"%s\"\nPlease make sure that you are running this script from an Rstudio session. If you are doing so and the error persists, please contact the organisers of CSAMA'%s.\n", .rstudioVersion, .yr)
+  stop( rstudioError )
+}
+
+if( .rstudioVersion != .required_rstudio_version ){
+  rstudioVersionError = sprintf("You are using a version of Rstudio different from the one required for CSAMA'%s, please install Rstudio v%s.\nRstudio v%s can be found here: %s",
+    .yr, .required_rstudio_version, .required_rstudio_version, .rstudio_url)
+  stop( rstudioVersionError )
+}
 
 if( biocVersion() == .Bioc_devel_version )
   useDevel(devel = FALSE)
@@ -80,9 +103,7 @@ if (interactive()) {
 
 # do not compile from sources
 options(install.packages.compile.from.source = "never")
-biocLite(toInstall, siteRepos = c(
-  CSAMA  = paste0(.baseurl, "/packages/csama/"),
-  GitHub = paste0(.baseurl, "/packages/github/")),
+biocLite(toInstall, siteRepos = .baseurl,
   type = ifelse(type == "source", "source", "both"),
   destdir = destdir)
 
@@ -91,8 +112,8 @@ if(all( deps %in% rownames(installed.packages()) )) {
 } else {
   notinstalled <- deps[which( !deps %in% rownames(installed.packages()) )]
   
-  cat(sprintf("\nThe following package%s not installed: %s.\nPlease try re-running the script to see whether the problem persists.\nIf you need help with troubleshooting, consider contacting the course organisers, or the Bioconductor mailing list.\n\n",
-    if (length(notinstalled)<=1) " was" else "s were", paste( notinstalled, collapse=", " )))
+  cat(sprintf("\nThe following package%s not installed:\n\n%s\n\nPlease try re-running the script to see whether the problem persists.\nIf you need help with troubleshooting, consider contacting the course organisers, or the Bioconductor mailing list.\n\n",
+    if (length(notinstalled)<=1) " was" else "s were", paste( notinstalled, collapse="\n" )))
   
   if( .Platform$pkgType == "source" )
     cat("Some of the packages (e.g. 'Cairo', 'fftwtools', 'mzR', rgl', 'RCurl', 'tiff', 'XML') that failed to install may require additional system libraries.*  Please check the documentation of these packages for unsatisfied dependencies.\n\n*) For example, on Ubuntu the dependencies corresponding to the mentioned packages are: libcairo2-dev, libfftw3-dev, libnetcdf-dev, libglu1-mesa-dev, libcurl4-openssl-dev, libtiff4-dev and libxml2-dev, respectively.\n\n")

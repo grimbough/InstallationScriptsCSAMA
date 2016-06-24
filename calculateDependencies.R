@@ -15,9 +15,7 @@ required = c("pkgDepTools", "Biobase", "tools")
 for(i in required)
   require(i, character.only = TRUE) || stop(sprintf("need package '%s'", i))
 #
-repList <- biocinstallRepos(siteRepos = c(
-  CSAMA  = "http://www-huber.embl.de/packages/csama/",
-  GitHub = "http://www-huber.embl.de/packages/github/"))
+repList <- biocinstallRepos()
 #
 pkgMatList <- lapply(repList, function(x) {
   available.packages(contrib.url(x, type = "source"))
@@ -44,10 +42,10 @@ deps <- sort(unique(c(deps, pkgs)))
 deps <- paste0('c("',paste(deps, collapse='", "'), '")')
 # load templates
 online = readLines("./installPackages.template")
-server = readLines("../server/public_html/installPackages.template")
+#server = readLines("../server/public_html/installPackages.template")
 # inject list of required packages
 online = sub("DEPS", deps, online)
-server = sub("DEPS", deps, server)
+# server = sub("DEPS", deps, server)
 # write ready-to-use script files
 cat(online, file="./installPackages.R", sep="\n")
-cat(server, file="../server/public_html/installPackages.R", sep="\n")
+#cat(server, file="../server/public_html/installPackages.R", sep="\n")
