@@ -45,7 +45,7 @@ if (is.null(mem)) {
 
 ## Check the R version
 R_version = paste(R.version$major, R.version$minor, sep=".")
-if( R_version %in% .required_R_version )
+if( !(R_version %in% .required_R_version) )
   stop(sprintf("You are using a version of R different than the one required for CSAMA'%s, please install R-%s", .yr, .required_R_version[2]))
 
 ## Install Bioconductor
