@@ -2,7 +2,7 @@
 ## Installation script for CSAMA 2015
 ##------------------------------------------------------------
 
-.required_R_version = "3.3.0"
+.required_R_version = c( "3.3.0", "3.3.1" )
 .required_Bioc_version = "3.3"
 .Bioc_devel_version = "3.4"
 .required_rstudio_version = "0.99.1241"
@@ -45,8 +45,8 @@ if (is.null(mem)) {
 
 ## Check the R version
 R_version = paste(R.version$major, R.version$minor, sep=".")
-if(R_version != .required_R_version )
-  stop(sprintf("You are using a version of R different than the one required for CSAMA'%s, please install R-%s", .yr, .required_R_version))
+if( R_version %in% .required_R_version )
+  stop(sprintf("You are using a version of R different than the one required for CSAMA'%s, please install R-%s", .yr, .required_R_version[2]))
 
 ## Install Bioconductor
 source("http://bioconductor.org/biocLite.R")
