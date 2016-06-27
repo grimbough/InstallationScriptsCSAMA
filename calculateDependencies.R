@@ -1,5 +1,5 @@
 # read package requirements from file
-pkgs = readLines("packages.txt")
+pkgs = readLines("info/packages.txt")
 # remove empty lines
 pkgs = pkgs[nchar(pkgs)>0]
 # remove comments
@@ -7,13 +7,28 @@ pkgs = pkgs[!grepl("^#", pkgs)]
 # intersect
 pkgs <- unique(pkgs)
 #
-source("http://bioconductor.org/biocLite.R")
-options(repos="http://cran.r-mirror.de")
-options(BioC_mirror="http://bioconductor.statistik.tu-dortmund.de") 
-# 
+
 required = c("pkgDepTools", "Biobase", "tools")
 for(i in required)
   require(i, character.only = TRUE) || stop(sprintf("need package '%s'", i))
+
+
+### build packages in current repository
+buildPackages = TRUE
+if( buildPackages ){
+  pkgsBuild = readLines("info/packagesToBuild.txt")
+  for(i in pkgsBuild){
+    system( sprintf("cd additionalPackages/src/contrib && R CMD build %s", i) )
+  }
+  write_PACKAGES("additionalPackages/src/contrib", verbose=TRUE, type="source")
+  write_PACKAGES("additionalPackages/bin/windows/contrib/3.3", verbose=TRUE, type="win.binary")
+  write_PACKAGES("additionalPackages/bin/macosx/mavericks/contrib/3.3/", verbose=TRUE, type="mac.binary")
+}
+
+
+source("http://bioconductor.org/biocLite.R")
+options(repos="http://cran.r-mirror.de")
+options(BioC_mirror="http://bioconductor.statistik.tu-dortmund.de")  
 #
 repList <- biocinstallRepos()
 #
