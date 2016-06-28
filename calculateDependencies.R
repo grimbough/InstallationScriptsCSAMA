@@ -23,6 +23,7 @@ if( buildPackages ){
   write_PACKAGES("additionalPackages/src/contrib", verbose=TRUE, type="source")
   write_PACKAGES("additionalPackages/bin/windows/contrib/3.3", verbose=TRUE, type="win.binary")
   write_PACKAGES("additionalPackages/bin/macosx/mavericks/contrib/3.3/", verbose=TRUE, type="mac.binary")
+  pkgs = unique( c( pkgsBuild, pkgs ) )
 }
 
 

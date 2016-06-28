@@ -69,7 +69,7 @@ if( inherits( .rstudioVersion, "try-error" ) ){
   stop( rstudioError )
 }
 
-if( .rstudioVersion != .required_rstudio_version ){
+if( !( .rstudioVersion >= .required_rstudio_version ) ){
   rstudioVersionError = sprintf("You are using a version of Rstudio different from the one required for CSAMA'%s, please install Rstudio v%s.\nRstudio v%s can be found here: %s",
     .yr, .required_rstudio_version, .required_rstudio_version, .rstudio_url)
   stop( rstudioVersionError )

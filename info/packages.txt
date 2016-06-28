@@ -247,6 +247,7 @@ geuvPack
 
 #Alejandro Reyes
 rstudioapi
+EpigeneticsCSAMA
 
 #Chip-seq lab
 ShortRead
@@ -259,4 +260,4 @@ biomaRt
 VennDiagram
 
 #Simon Anders
-TopGO
+topGO
