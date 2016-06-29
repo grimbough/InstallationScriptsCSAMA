@@ -12,20 +12,20 @@ required = c("pkgDepTools", "Biobase", "tools")
 for(i in required)
   require(i, character.only = TRUE) || stop(sprintf("need package '%s'", i))
 
+pkgsBuild = readLines("info/packagesToBuild.txt")
+pkgs = unique( c( pkgsBuild, pkgs ) )
+
 
 ### build packages in current repository
-buildPackages = TRUE
+buildPackages = FALSE
 if( buildPackages ){
-  pkgsBuild = readLines("info/packagesToBuild.txt")
   for(i in pkgsBuild){
     system( sprintf("cd additionalPackages/src/contrib && R CMD build %s", i) )
   }
   write_PACKAGES("additionalPackages/src/contrib", verbose=TRUE, type="source")
   write_PACKAGES("additionalPackages/bin/windows/contrib/3.3", verbose=TRUE, type="win.binary")
   write_PACKAGES("additionalPackages/bin/macosx/mavericks/contrib/3.3/", verbose=TRUE, type="mac.binary")
-  pkgs = unique( c( pkgsBuild, pkgs ) )
 }
-
 
 source("http://bioconductor.org/biocLite.R")
 options(repos="http://cran.r-mirror.de")
@@ -46,14 +46,14 @@ for (pMat in pkgMatList) {
       deps <- c(deps, 
                 pkgDepTools:::cleanPkgField(pMat[p, "Depends"]),
                 pkgDepTools:::cleanPkgField(pMat[p, "Imports"]),
-                pkgDepTools:::cleanPkgField(pMat[p, "LinkingTo"])
-                #pkgDepTools:::cleanPkgField(pMat[p, "Suggests"])
+                pkgDepTools:::cleanPkgField(pMat[p, "LinkingTo"]),
+                pkgDepTools:::cleanPkgField(pMat[p, "Suggests"])
                 )
 }
 #
 deps <- sort(unique(c(deps, pkgs)))
 #
-#deps <- setdiff(deps, c("Rmpi", "xgboost"))
+deps <- setdiff(deps, c("Rmpi"))
 #
 deps <- paste0('c("',paste(deps, collapse='", "'), '")')
 # load templates

@@ -50,8 +50,8 @@ if( !(R_version %in% .required_R_version) )
 
 ## Install Bioconductor
 source("http://bioconductor.org/biocLite.R")
-chooseBioCmirror()
-chooseCRANmirror()
+#chooseBioCmirror()
+#chooseCRANmirror()
 
 .baseurl = c( biocinstallRepos(), "http://www-huber.embl.de/users/reyes/csama2016/additionalPackages")
 
@@ -70,8 +70,8 @@ if( inherits( .rstudioVersion, "try-error" ) ){
 }
 
 if( !( .rstudioVersion >= .required_rstudio_version ) ){
-  rstudioVersionError = sprintf("You are using a version of Rstudio different from the one required for CSAMA'%s, please install Rstudio v%s.\nRstudio v%s can be found here: %s",
-    .yr, .required_rstudio_version, .required_rstudio_version, .rstudio_url)
+  rstudioVersionError = sprintf("You are using a version of Rstudio different from the one required for CSAMA'%s, please install Rstudio v%s or higher.\nThe preview version of Rstudio can be found here: %s",
+    .yr, .required_rstudio_version, .rstudio_url)
   stop( rstudioVersionError )
 }
 
