@@ -168,6 +168,8 @@ AnnotationDbi
 Homo.sapiens
 Glimma
 Rsubread
+phyloseq
+metagenomeSeq
 
 # Martin Morgan: 
 AnnotationHub

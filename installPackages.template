@@ -111,10 +111,17 @@ if(all( deps %in% rownames(installed.packages()) )) {
   cat(sprintf("\nCongratulations! All packages were installed successfully :)\nWe are looking forward to seeing you in Brixen!\n\n"))
 } else {
   notinstalled <- deps[which( !deps %in% rownames(installed.packages()) )]
+
+
+  if( .Platform$pkgType == "win.binary" & 'Rsubread' %in% notinstalled ){
+    cat("The windows binaries for the package 'Rsubread' are not available. However, this package is not 100% necessary for the practicals. If this is the only package
+    that was not installed, there is no reason to worry. \n")
+  }
   
   cat(sprintf("\nThe following package%s not installed:\n\n%s\n\nPlease try re-running the script to see whether the problem persists.\nIf you need help with troubleshooting, consider contacting the course organisers, or the Bioconductor mailing list.\n\n",
     if (length(notinstalled)<=1) " was" else "s were", paste( notinstalled, collapse="\n" )))
   
-  if( .Platform$pkgType == "source" )
+  if( .Platform$pkgType == "source" ){
     cat("Some of the packages (e.g. 'Cairo', 'fftwtools', 'mzR', rgl', 'RCurl', 'tiff', 'XML') that failed to install may require additional system libraries.*  Please check the documentation of these packages for unsatisfied dependencies.\n\n*) For example, on Ubuntu the dependencies corresponding to the mentioned packages are: libcairo2-dev, libfftw3-dev, libnetcdf-dev, libglu1-mesa-dev, libcurl4-openssl-dev, libtiff4-dev and libxml2-dev, respectively.\n\n")
+  }
 }
