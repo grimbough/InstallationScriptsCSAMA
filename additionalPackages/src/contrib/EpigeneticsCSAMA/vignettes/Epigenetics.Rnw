@@ -12,7 +12,6 @@
 \usepackage{url}
 
 \begin{document}
-%\SweaveOpts{concordance=TRUE}
 \title{Basics of ChIP-seq data analysis}
 \author{Aleksandra P{\k e}kowska, Simon Anders}
 \maketitle
