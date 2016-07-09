@@ -21,24 +21,22 @@
 
 \section{Introduction}
 
-This vignette describes several basic steps in the analysis of ChIP-seq for histone modification - here H3K27 acetylation (H3K27ac). 
+This vignette describes steps of a basic analysis of ChIP-seq data. To exemplify this tutorial, we use ChIP-seq data for the lysine 27 acetylation of the histone H3 (i.e H3K27ac). 
 
-\subsection{Aims of the tutorial}
+\subsection{Objectives of this tutorial}
 
-The aim of the present lab is to show the reader how to:
-\\*1. Read ChIP-seq experiment to \textit{R} 
-\\*2. Extend the reads and bin the data
-\\*3. Create .bedGraph files for data sharing
-\\*4. Visualize ChIP-seq files with \textit{R}
+After completing this vignette, you will be able to:
+\\*1. Read a ChIP-seq experiment into \textit{R} 
+\\*2. Extend the reads and bin the data (details and relevance discussed later)
+\\*3. Generate .bedGraph files
+\\*4. Visualize ChIP-seq data with \textit{R}
 \\*5. Perform basic analysis of ChIP-seq peaks
-\\*6. Generate average profiles and heatmaps of ChIP-seq enrichment around a set of genomic loci
+\\*6. Generate average profiles and heatmaps of ChIP-seq enrichment around a set of annotated genomic loci
 \\* In the appendix part, we show how to download, preprocess and asses the quality of .fastq files.
 
 \section{Data}
 
-H3K27ac is a histone modification associated with active promoters and enhancers. We downloaded data corresponding to a ChIP-seq experiment mapping the H3K27ac histone modification in two replicates of mouse Embryonic Stem cells (mES) along with the input control sample from the study \textit{Histone H3K27ac separates active from poised enhancers and predicts developmental state} by Creyghton \textit{et al}., PNAS 2010. 
-
-To get started quickly, we here describe the initial preprocessing only briefly. See the Appendix for full details.
+H3K27ac is a histone modification associated with active promoters and enhancers. We downloaded data corresponding to a ChIP-seq experiment with two biological replicates of mouse Embryonic Stem cells (mESC) along with the input control sample \textit{Histone H3K27ac separates active from poised enhancers and predicts developmental state} by Creyghton \textit{et al}., PNAS 2010. 
 
 \subsection{Preprocessing of data}
 
@@ -54,26 +52,28 @@ Initial parts of the analysis of sequenced reads include: alignment, filtering a
 
 \subsubsection{Additional considerations}
 
-Visualisation and read distribution analysis parts of this vignette. They require \textit{biomart} database querying via the internet. We hence provide the necessary objects in the package. Code for their generation is found in the \textit{Appendix} part of the vignette.
+Two steps from this vignette (visualization and read distribution analysis) require \textit{biomart} database querying via the internet. In order to avoid many downloads, we provide the necessary objects in the data package \emph{EpigeneticsCSAMA}. The code for the generation of these objects can be found in the \textit{Appendix} of the vignette.
 
-To reduce memory requirements, we focus on filtered reads mapping only to chromosome 6. 
+Additionally, in order to reduce memory requirements, we restrict our analysis to the filtered reads mapping to chromosome 6. 
 
 \subsection{Data package}
 
-To save time, we have performed we above steps already for you and placed the produced files and R objects in a data package called \textit{EpigeneticsCSAMA}, which we load now. (Note that such a data package is used for convenience in this course, but typically, you would not package up interemediate data in this way.) 
+The data files produced by the steps above are placed in the R objects of a data package called \textit{EpigeneticsCSAMA}, which we load now. (Note that such a data package is used for convenience in this course, but typically, you would not package up interemediate data in this way.) 
 
 <<Dir, echo=TRUE, eval=TRUE>>=
 library(EpigeneticsCSAMA)
 dataDirectory =  system.file("bedfiles", package="EpigeneticsCSAMA")
 @
 
-The variable \textit{dataDirectory} shows where the files that we will read in the following are on your computer.
+The variable \textit{dataDirectory} shows the directory containing the
+data objects necessary for this vignette.
 
 <<DirShow>>=
 dataDirectory
 @
 
-Have a look at them with a text editor.
+In order to explore this files, have a look at them with a text editor or via 
+a terminal emulator.
 
 \section{Reading the filtered ChIP-seq reads}
  
@@ -107,7 +107,7 @@ length(rep2)
 
 \section{Preparation of the ChIP-seq and control samples: read extension}
 
-The reads correspond to sequences at the end of each IP-ed fragment (single-end sequencing data). As discussed in the lecture,  we need to extend them to represent each IP-ed DNA fragment. 
+The reads correspond to sequences at the end of each IP-ed fragment (single-end sequencing data). We need to extend these reads in order to represent each IP-ed DNA fragment. 
 
 We estimate the mean read length using the \textit{estimate.mean.fraglen} function from \textit{chipseq} packege. Next, we extend the reads to the inferred read length using the \textit{resize} function. We remove any reads for which the coordinates, after the extension, exceed chromosome length. These three analysis steps are wrapped in a single function \textit{prepareChIPseq} function which we define below. 
 
@@ -142,9 +142,7 @@ The next step in the analysis is to count how many reads map to each of the pre-
 
 \subsection{Generation of bins}
 
-We first generate the bins. We will tile the genome into non-overlapping bins of size 200 bp.
-
-To this end we need the information about chromosome sizes in the mouse genome (assembly \textit{mm9}). In the data package, we provide the object \textit{si}, which holds this information. The reader can find the code necessary to create the \textit{si} object in the \textit{Obtaining \textit{si} object for \textit{mm9}} of the \textit{Appendix}.
+We will tile the genome into non-overlapping bins of size 200 bp. To this end we need the information about chromosome sizes in the mouse genome (assembly \textit{mm9}). In the data package, we provide the object \textit{si} (strand information), which holds these data. The reader can find the code necessary to create the \textit{si} object in the \textit{Obtaining \textit{si} object for \textit{mm9}} of the \textit{Appendix}.
 
 
 <<GetBins_preps>>=
@@ -183,14 +181,14 @@ rep2.200bins = BinChIPseq( rep2, bins )
 rep1.200bins
 @
 
-We can quickly plot coverage for 1000 bins, starting from bin 200,000.
+We can plot coverage for 1000 bins, starting from bin 200,000.
 
 <<simplePlot,fig.width=7, fig.height=7, out.width='.65\\linewidth', fig.align='center'>>=
 plot( 200000:201000, rep1.200bins$score[200000:201000], 
    xlab="chr6", ylab="counts per bin" )
 @
 
-Below, we will see more sophisticaed ways of plotting coverage. 
+Below, we will see more sophisticated ways of plotting coverage. 
 
 \subsection{Exporting binned data}
 
@@ -208,11 +206,11 @@ export(rep2.200bins,
        format = "bedGraph")
 @
 
-If you have a genome browser (like \textit{IGB}) installed, have a look at the bedGraph files. In the next section, we see how to visualize them with \textit{R}.
+In the next section, we see how to visualize bedGraph files using \textit{R}.
 
 \section{Visualisation of ChIP-seq data wit \textit{Gviz}}
 
-Now, we have data which we would like to display along the genome. \textit{R} offers a flexible infrastructure for visualisation of many types of genomics data. Here, we use the \textit{Gviz} package for this purposes.
+Now, we have data which we would like to display along the genome. \textit{R} offers a flexible infrastructure for visualisation of many types of genomics data. Here, we use the \textit{Gviz} package for these purposes.
 
 <<Visualisation_Prep_libs, results='hide'>>=
 library(Gviz)
@@ -242,7 +240,7 @@ plotTracks(c( bm, AT),
            cex.title=1, fontsize=10 )
 @
 
-We next add our two data tracks to the plot. We first generate \textit{DataTrack} objects with \textit{DataTrack} function. We include the information about how the track is be labaled anc colored. We obtain \textit{input.track}, \textit{rep1.track} and \textit{rep2.track} objects. 
+We next add our two data tracks to the plot. We first generate \textit{DataTrack} objects with \textit{DataTrack} function. We include the information about how the track is be labaled and colored. We obtain \textit{input.track}, \textit{rep1.track} and \textit{rep2.track} objects. 
 
 <<dataTrackGet>>=
 input.track = DataTrack(input.200bins, 
@@ -310,7 +308,7 @@ plotTracks(c(input.track, rep1.track, peaks1.track,
            type="histogram", cex.title=0.7, fontsize=10 )
 @
 
-We can see thath \textit{MACS} has succesfully identified regions showing high H3K27ac signal. We see that both biological replicates agree well, however, in some cases peaks are called only in one sample. In the next section, we will analyse how often do we see the overlap between peaks and isolate reproducible peaks.
+We can see that \textit{MACS} has succesfully identified regions showing high H3K27ac signal. We see that both biological replicates agree well, however, in some cases peaks are called only in one sample. In the next section, we will analyse how often do we see the overlap between peaks and isolate reproducible peaks.
 
 \subsection{Venn diagrams}
 
@@ -321,7 +319,7 @@ ovlp = findOverlaps( peaks.rep1, peaks.rep2 )
 ovlp
 @
 
-If a peak in one replicate overlps with mutiple peaks in the other replicate, it will appear multiple times in \textit{ovlp}. To see, how many peaks overlap with something in the other replicate, we count the number of unique peaks in each of the two columns of \textit{ovlp} and take the smaller of these two counts to as the number of common peaks.
+If a peak in one replicate overlaps with mutiple peaks in the other replicate, it will appear multiple times in \textit{ovlp}. To see, how many peaks overlap with something in the other replicate, we count the number of unique peaks in each of the two columns of \textit{ovlp} and take the smaller of these two counts to as the number of common peaks.
 
 <<nbrCommonPeaks>>=
 ov = min( length(unique( queryHits(ovlp) )), length(unique( subjectHits(ovlp) ) ) )
@@ -363,13 +361,13 @@ plotTracks(c(input.track, rep1.track, peaks1.track,
 
 \subsection{Isolation of promoters overlapping H3K27ac peaks}
 
-One of the questions of a ChIP seq analyses is to which extend ChIP-enriched regions  overlap a chosen type of features, such as promoters or regions enriched with other modifications. To this end, the overlap between peaks of ChIP-seq signal and the features of interest is analysed. 
+One of the questions of a ChIP seq analyses is to which extend ChIP-enriched regions overlap a chosen type of features, such as promoters or regions enriched with other modifications. To this end, the overlap between peaks of ChIP-seq signal and the features of interest is analysed. 
 
 We exemplify such an analysis by testing how many of the H3K27ac enriched regions overlap promoter regions. 
 
 \subsubsection{Identification of promoters}
 
-As shown in the Appendix, we have used \textit{biomaRt} to get coordinates for start and end of all mouse genes. (These are the coordinates  of the outermost UTR boundaries.) We load the results of the \textit{biomaRt} query from the data package. It is given in the object \textit{egs}, a \textit{data.frame} containing \textit{ensembl} ID along with gene symbols, genomic coordiantes and orientation of of mouse genes.
+As shown in the Appendix, we have used \textit{biomaRt} to get coordinates for start and end of all mouse genes. (These are the coordinates  of the outermost UTR boundaries.) We load the results of the \textit{biomaRt} query from the data package. It is given in the object \textit{egs}, a \textit{data.frame} containing \textit{ensembl} ID along with gene symbols, genomic coordinates and orientation of of mouse genes.
 
 <<TSS>>=
 data(egs)
@@ -415,7 +413,7 @@ cat(sprintf( "%d of %d enriched regions overlap a promoter.",
    length( unique( subjectHits(ovlp2b) ) ), length( enriched.regions ) ) )
 @
 
-Is this a significant enrichment? To see, we first calculate how much chromosome 6 is part of a promotor region. The following command reduces the promotor list to non-overlapping intervals and sums up their widths
+Is this a significant enrichment? To see, we first calculate how much chromosome 6 is part of a promoter region. The following command reduces the promoter list to non-overlapping intervals and sums up their widths
 <<>>=
 promotor_total_length = sum(width(reduce(promoter_regions)))
 promotor_total_length
@@ -432,7 +430,6 @@ Nearly a quarter of promoters are overlapped by H3K27ac-enriched regions even th
 <<>>=
 binom.test( length( unique( subjectHits( ovlp2b ) ) ), length( enriched.regions ), promotor_fraction_of_chromosome_6 )
 @
-
 
 Which promotors are overlapped with an H3K27ac peak? Let's see some examples:
 
