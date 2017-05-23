@@ -3,12 +3,10 @@
 ## Mirrors: uncomment the following and change to your favorite CRAN mirror
 ## if you don't want to use the default (cran.rstudio.com).
 options("repos" = c(
-	CRAN = paste0(.baseurl, "/packages/cran/"),
+	CRAN = paste0(.baseurl, "/R_packages/cran/"),
 	CSAMA = paste0(.baseurl, "/packages/csama/")
 ))
 
-## Mirrors: uncomment the following and change to your favorite Bioconductor
-## mirror, if you don't want to use the default (bioconductor.org)
 options("BioC_mirror" = .baseurl)
 
 local({

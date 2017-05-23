@@ -31,7 +31,7 @@ $wget http://bioconductor.statistik.tu-dortmund.de/packages/$Bioc_ver/extra/bin/
 
 mv bioconductor.statistik.tu-dortmund.de/packages/$Bioc_ver $HOME/R_packages/$Bioc_ver
 # #
-# eval $rsync master.bioconductor.org::$Bioc_ver/ $Bioc_ver/
+# eval $rsync master.bioconductor.org::$Bioc_ver/ bioc_$Bioc_ver/
 # #
 # #
 # # CRAN
