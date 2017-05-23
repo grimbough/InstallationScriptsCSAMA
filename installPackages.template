@@ -2,11 +2,11 @@
 ## Installation script for CSAMA 2016
 ##------------------------------------------------------------
 
-.required_R_version = c( "3.3.0", "3.3.1" )
-.required_Bioc_version = "3.3"
-.Bioc_devel_version = "3.4"
-.required_rstudio_version = "0.99.1241"
-.rstudio_url="https://www.rstudio.com/products/rstudio/download/preview/"
+.required_R_version = c( "3.4.0", "3.4.0" )
+.required_Bioc_version = "3.5"
+.Bioc_devel_version = "3.6"
+.required_rstudio_version = "1.0.143"
+.rstudio_url="https://www.rstudio.com/products/rstudio/download/"
 options(warn = 1)
 #.baseurl = "http://www-huber.embl.de"
 .yr = format(Sys.Date(), "%y")
@@ -53,7 +53,7 @@ source("http://bioconductor.org/biocLite.R")
 #chooseBioCmirror()
 #chooseCRANmirror()
 
-.baseurl = c( biocinstallRepos(), "http://www-huber.embl.de/users/reyes/csama2016/additionalPackages")
+.baseurl = c( biocinstallRepos(), "http://www-huber.embl.de/users/msmith/csama2017/additionalPackages")
 
 ### Check Rstudio version
 hasApistudio = suppressWarnings(require("rstudioapi", quietly=TRUE))
