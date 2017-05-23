@@ -1,3 +1,0 @@
-[submodule "additionalPackages/tissuesGeneExpression"]
-	path = additionalPackages/src/contrib/tissuesGeneExpression
-	url = https://github.com/genomicsclass/tissuesGeneExpression.git
