@@ -49,9 +49,9 @@ if(!LOCAL) {
     options(BioC_mirror="http://bioconductor.statistik.tu-dortmund.de") 
 }
 #
-repList <- biocinstallRepos()
+repoList <- biocinstallRepos()
 #
-pkgMatList <- lapply(repList, function(x) {
+pkgMatList <- lapply(repoList, function(x) {
     available.packages(contrib.url(x, type = "source"))
 })
 #
