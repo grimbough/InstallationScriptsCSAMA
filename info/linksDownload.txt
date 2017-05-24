@@ -1,5 +1,0 @@
-https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/spider_wolff_gorb_2013.csv
-https://github.com/Bioconductor/CSAMA2015/blob/master/materials/labs/1_Monday/rbioc-intro/ALLphenoData.tsv
-https://github.com/Bioconductor/CSAMA2015/blob/master/materials/labs/1_Monday/rbioc-intro/BRFSS-subset.csv
-https://github.com/Bioconductor/CSAMA2015/blob/master/materials/labs/1_Monday/rbioc-intro/symgo.csv
-https://github.com/mikelove/CSAMA2016data/archive/master.zip
