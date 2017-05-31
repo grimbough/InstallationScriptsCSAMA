@@ -51,6 +51,9 @@ MassSpecWavelet
 mzR
 ProtGenerics
 MSnbase
+ensembldb
+EnsDb.Hsapiens.v75
+EnsDb.Hsapiens.v86
 
 ##Laurent
 ggplot2
@@ -105,3 +108,39 @@ Homo.sapiens
 Glimma
 topGO
 Rsubread
+
+## Martin Morgan
+AnnotationHub 
+BSgenome.Hsapiens.UCSC.hg19 
+BiocParallel 
+Biostrings 
+GenomicAlignments 
+GenomicFiles 
+GenomicRanges 
+Gviz 
+IRanges 
+RNAseqData.HNRNPC.bam.chr14 
+Rsamtools 
+TxDb.Hsapiens.UCSC.hg19.knownGene 
+VariantAnnotation 
+biomaRt 
+ggplot2 
+knitr 
+microbenchmark 
+org.Hs.eg.db 
+rtracklayer 
+
+## Levi Waldron
+waldronlab/MultiAssayExperiment
+curatedMetagenomicData
+ComplexHeatmap
+survminer
+yriMulti
+gQTLstats
+ldblock
+DelayedArray
+UpSetR
+RaggedExperiment
+TxDb.Hsapiens.UCSC.hg19.knownGene
+org.Hs.eg.db
+GenomeInfoDb
