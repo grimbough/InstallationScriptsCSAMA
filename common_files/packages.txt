@@ -144,3 +144,9 @@ RaggedExperiment
 TxDb.Hsapiens.UCSC.hg19.knownGene
 org.Hs.eg.db
 GenomeInfoDb
+
+## Vince Carey
+seqc
+MLInterfaces
+gridExtra
+ggplot2
