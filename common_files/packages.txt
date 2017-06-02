@@ -131,7 +131,7 @@ org.Hs.eg.db
 rtracklayer 
 
 ## Levi Waldron
-waldronlab/MultiAssayExperiment
+MultiAssayExperiment
 curatedMetagenomicData
 ComplexHeatmap
 survminer
