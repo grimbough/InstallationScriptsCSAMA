@@ -1,4 +1,4 @@
-## Wolfgang 
+## Wolfgang
 IHW
 rnaseqGene
 xkcd
@@ -43,7 +43,7 @@ faahKO
 RColorBrewer
 doParallel
 XML
-Rgraphiz
+Rgraphviz
 plyr
 RANN
 multtest
@@ -110,25 +110,25 @@ topGO
 Rsubread
 
 ## Martin Morgan
-AnnotationHub 
-BSgenome.Hsapiens.UCSC.hg19 
-BiocParallel 
-Biostrings 
-GenomicAlignments 
-GenomicFiles 
-GenomicRanges 
-Gviz 
-IRanges 
-RNAseqData.HNRNPC.bam.chr14 
-Rsamtools 
-TxDb.Hsapiens.UCSC.hg19.knownGene 
-VariantAnnotation 
-biomaRt 
-ggplot2 
-knitr 
-microbenchmark 
-org.Hs.eg.db 
-rtracklayer 
+AnnotationHub
+BSgenome.Hsapiens.UCSC.hg19
+BiocParallel
+Biostrings
+GenomicAlignments
+GenomicFiles
+GenomicRanges
+Gviz
+IRanges
+RNAseqData.HNRNPC.bam.chr14
+Rsamtools
+TxDb.Hsapiens.UCSC.hg19.knownGene
+VariantAnnotation
+biomaRt
+ggplot2
+knitr
+microbenchmark
+org.Hs.eg.db
+rtracklayer
 
 ## Levi Waldron
 MultiAssayExperiment
