@@ -107,6 +107,9 @@ biocLite(toInstall, siteRepos = .baseurl,
   type = ifelse(type == "source", "source", "both"),
   destdir = destdir)
 
+source("http://bioconductor.org/workflows.R")
+workflowInstall("rnaseqGene")
+
 if(all( deps %in% rownames(installed.packages()) )) {
   cat(sprintf("\nCongratulations! All packages were installed successfully :)\nWe are looking forward to seeing you in Brixen!\n\n"))
 } else {
