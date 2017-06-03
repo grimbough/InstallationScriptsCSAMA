@@ -58,7 +58,7 @@ options(repos="http://cran.r-mirror.de")
 options(BioC_mirror="http://bioconductor.statistik.tu-dortmund.de") 
 
 
-repoList <- biocinstallRepos()
+repoList <- BiocInstaller::biocinstallRepos()
 pkgMatList <- lapply(repoList, function(x) {
     available.packages(contrib.url(x, type = "source"))
 })
