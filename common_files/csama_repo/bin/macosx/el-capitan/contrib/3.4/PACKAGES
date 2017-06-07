@@ -1,0 +1,8 @@
+Package: MultiAssayExperiment
+Version: 1.3.20
+Depends: R (>= 3.4.0)
+Imports: methods, GenomicRanges (>= 1.25.93), BiocGenerics, SummarizedExperiment (>= 1.3.81), S4Vectors, IRanges, Biobase, reshape2,
+               shinydashboard, shiny, stats, tidyr, utils
+Suggests: BiocStyle, testthat, knitr, GenomicFiles, HDF5Array, RaggedExperiment, rmarkdown, UpSetR, survival, survminer
+License: Artistic-2.0
+MD5sum: ef09bf66223dd4e31ee7ac683ce77561

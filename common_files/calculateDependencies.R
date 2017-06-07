@@ -41,6 +41,7 @@ if(target == "user") {
         write_PACKAGES("../common_files/csama_repo/src/contrib", verbose=TRUE, type="source")
         write_PACKAGES("../common_files/csama_repo/bin/windows/contrib/3.4/", verbose=TRUE, type="win.binary")
         write_PACKAGES("../common_files/csama_repo/bin/macosx/contrib/3.4/", verbose=TRUE, type="mac.binary")
+        write_PACKAGES("../common_files/csama_repo/bin/macosx/el-capitan/contrib/3.4/", verbose=TRUE, type="mac.binary")
     }
 } else if(target == "server") {
     if( buildPackages ){
