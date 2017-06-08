@@ -16,4 +16,6 @@ sudo apt-get install build-essential \
   libpq-dev \
   libmariadb-client-lgpl-dev \
   libglu1-mesa-dev \
-  libxt-dev
+  libxt-dev \
+  libudunits2-dev \
+  libgdal-dev
