@@ -1,0 +1,10 @@
+**/src/contrib/*.gz
+**/src/contrib/PACKAGES
+**/src/contrib/PACKAGES.gz
+**/bin/windows/**/3.4/*.zip
+**/bin/windows/**/3.4/PACKAGES
+**/bin/windows/**/3.4/PACKAGES.gz
+**/bin/macosx/**/3.4/*.tgz
+**/bin/macosx/**/3.4/PACKAGES
+**/bin/macosx/**/3.4/PACKAGES.gz
+
