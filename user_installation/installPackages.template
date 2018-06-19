@@ -1,11 +1,11 @@
 ##------------------------------------------------------------
-## Installation script for CSAMA 2017
+## Installation script for CSAMA 2018
 ##------------------------------------------------------------
 
-.required_R_version = c( "3.4.0", "3.4.0" )
-.required_Bioc_version = "3.5"
-.Bioc_devel_version = "3.6"
-.required_rstudio_version = "1.0.143"
+.required_R_version = c( "3.5.0", "3.5.0" )
+.required_Bioc_version = "3.7"
+.Bioc_devel_version = "3.8"
+.required_rstudio_version = "1.1.453"
 .rstudio_url="https://www.rstudio.com/products/rstudio/download/"
 options(warn = 1)
 #.baseurl = "http://www-huber.embl.de"
@@ -53,7 +53,7 @@ source("http://bioconductor.org/biocLite.R")
 #chooseBioCmirror()
 #chooseCRANmirror()
 
-.baseurl = c( biocinstallRepos(), "http://www-huber.embl.de/users/msmith/csama2017/csama_repo")
+.baseurl = c( biocinstallRepos(), "http://www-huber.embl.de/users/msmith/csama2018/csama_repo")
 
 ### Check Rstudio version
 hasApistudio = suppressWarnings(require("rstudioapi", quietly=TRUE))
@@ -125,6 +125,6 @@ if(all( deps %in% rownames(installed.packages()) )) {
     if (length(notinstalled)<=1) " was" else "s were", paste( notinstalled, collapse="\n" )))
   
   if( .Platform$pkgType == "source" ){
-    cat("Some of the packages (e.g. 'Cairo', 'fftwtools', 'mzR', rgl', 'RCurl', 'tiff', 'XML') that failed to install may require additional system libraries.*  Please check the documentation of these packages for unsatisfied dependencies.\n\n*).  A list of required libraries for Ubuntu can be found at http://www.huber.embl.de/users/msmith/csama2017/linux_libraries.html \n\n")
+    cat("Some of the packages (e.g. 'Cairo', 'fftwtools', 'mzR', rgl', 'RCurl', 'tiff', 'XML') that failed to install may require additional system libraries.*  Please check the documentation of these packages for unsatisfied dependencies.\n\n*).  A list of required libraries for Ubuntu can be found at http://www.huber.embl.de/users/msmith/csama2018/linux_libraries.html \n\n")
   }
 }
