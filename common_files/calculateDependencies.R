@@ -39,17 +39,17 @@ if(target == "user") {
             file.remove(tarballs)
         }
         write_PACKAGES("../common_files/csama_repo/src/contrib", verbose=TRUE, type="source")
-        write_PACKAGES("../common_files/csama_repo/bin/windows/contrib/3.4/", verbose=TRUE, type="win.binary")
-        write_PACKAGES("../common_files/csama_repo/bin/macosx/el-capitan/contrib/3.4/", verbose=TRUE, type="mac.binary")
+        write_PACKAGES("../common_files/csama_repo/bin/windows/contrib/3.5/", verbose=TRUE, type="win.binary")
+        write_PACKAGES("../common_files/csama_repo/bin/macosx/el-capitan/contrib/3.5/", verbose=TRUE, type="mac.binary")
     }
 } else if(target == "server") {
     if( buildPackages ){
         for(i in pkgsBuild){
-            system( sprintf("cd /home/csama/R_packages/bioc_3.5/bioc/src/contrib/ && R CMD build /home/csama/github/InstallationScriptsCSAMA/additionalPackages/src/contrib/%s", i) )
+            system( sprintf("cd /home/csama/R_packages/bioc_3.7/bioc/src/contrib/ && R CMD build /home/csama/github/InstallationScriptsCSAMA/additionalPackages/src/contrib/%s", i) )
         }
-        write_PACKAGES("/home/csama/R_packages/bioc_3.5/bioc/src/contrib", verbose=TRUE, type="source")
-        write_PACKAGES("/home/csama/R_packages/bioc_3.5/bioc/bin/windows/contrib/3.4/", verbose=TRUE, type="win.binary")
-        write_PACKAGES("/home/csama/R_packages/bioc_3.5/bioc/bin/macosx/contrib/3.4/", verbose=TRUE, type="mac.binary")
+        write_PACKAGES("/home/csama/R_packages/bioc_3.7/bioc/src/contrib", verbose=TRUE, type="source")
+        write_PACKAGES("/home/csama/R_packages/bioc_3.7/bioc/bin/windows/contrib/3.4/", verbose=TRUE, type="win.binary")
+        write_PACKAGES("/home/csama/R_packages/bioc_3.7/bioc/bin/macosx/contrib/3.4/", verbose=TRUE, type="mac.binary")
     }
 }
 
