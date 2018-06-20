@@ -15,6 +15,12 @@ pkgs = pkgs[!grepl("^#", pkgs)]
 pkgs <- unique(pkgs)
 
 required = c("pkgDepTools", "Biobase", "tools")
+installed_idx <- which(!required %in% rownames(installed.packages()))
+for(i in seq_along(installed_idx)) {
+    source('http://www.bioconductor.org/biocLite.R')
+    BiocInstaller::biocLite(required[i])
+}
+
 for(i in required)
     suppressPackageStartupMessages(require(i, character.only = TRUE) || stop(sprintf("need package '%s'", i)))
 
@@ -22,7 +28,7 @@ pkgsBuild = list.files("../common_files/additional_packages/")
 pkgs = unique( c( pkgsBuild, pkgs ) )
 
 ##TODO: make this optional later
-buildPackages = TRUE
+buildPackages = FALSE
 
 ### build packages in current repository
 if(target == "user") {
@@ -72,8 +78,8 @@ for (pMat in pkgMatList) {
             deps <- c(deps, 
                       pkgDepTools:::cleanPkgField(pMat[p, "Depends"]),
                       pkgDepTools:::cleanPkgField(pMat[p, "Imports"]),
-                      pkgDepTools:::cleanPkgField(pMat[p, "LinkingTo"]),
-                      pkgDepTools:::cleanPkgField(pMat[p, "Suggests"])
+                      pkgDepTools:::cleanPkgField(pMat[p, "LinkingTo"])
+                      #pkgDepTools:::cleanPkgField(pMat[p, "Suggests"])
             )
 }
 

@@ -2,10 +2,10 @@
 ## Installation script for CSAMA 2016
 ##------------------------------------------------------------
 
-.required_R_version = c( "3.3.0", "3.3.1" )
-.required_Bioc_version = "3.3"
-.Bioc_devel_version = "3.4"
-.required_rstudio_version = "0.99.1241"
+.required_R_version = c( "3.5.0", "3.5.1" )
+.required_Bioc_version = "3.7"
+.Bioc_devel_version = "3.8"
+.required_rstudio_version = "1.1.453"
 .rstudio_url="http://192.168.0.9/software/RStudio/"
 options(warn = 1)
 #.baseurl = "http://www-huber.embl.de"
