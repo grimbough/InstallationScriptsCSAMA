@@ -2,8 +2,8 @@
 #cd `dirname $0`
 
 rsync="rsync --progress -rtzvhlam --delete --include-from rsync.include --filter '-! */'"
-#rsync="rsync --progress --dry-run -rtzvhlam --delete --include-from rsync.include --filter '-! */'"
-Bioc_ver=3.5
+#rsync="rsync --progress --dry-run -zrtlvham --delete --include-from rsync.include --filter '-! */'"
+Bioc_ver=3.7
 
-eval $rsync master.bioconductor.org::${Bioc_ver}/ bioc_${Bioc_ver}/
+eval $rsync master.bioconductor.org::release bioc_${Bioc_ver}/
 eval $rsync cran.r-project.org::CRAN/ cran/
