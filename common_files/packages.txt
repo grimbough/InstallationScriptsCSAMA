@@ -1,3 +1,11 @@
+## Vince
+
+## Laurent
+
+## Robert
+
+## Laleh
+
 ## Wolfgang
 IHW
 rnaseqGene
@@ -36,117 +44,23 @@ glmnet
 caret
 kernlab
 
-##Johannes
-BiocStyle
-xcms
-faahKO
-RColorBrewer
-doParallel
-XML
-Rgraphviz
-plyr
-RANN
-multtest
-MassSpecWavelet
-mzR
-ProtGenerics
-MSnbase
-ensembldb
-EnsDb.Hsapiens.v75
-EnsDb.Hsapiens.v86
+## Mike 
 
-##Laurent
-ggplot2
-gridExtra
-dplyr
-msdata
-mzR
+## Martin
+
+## Johannes
+xcms
 MSnbase
-msmsTests
-msmsEDA
-pRolocdata
-pRoloc
-MSnID
-MSGFplus
-MSGFgui
-RforProteomics
-rpx
-rols
-hpar
-qvalue
-multtest
+mzR
+doParallel
+msdata
+magrittr
+ensembldb
+EnsDb.Hsapiens.v86
+AnnotationHub
+BSgenome.Hsapiens.NCBI.GRCh38
 
 ## Charlotte
-rmarkdown
-BiocStyle
-knitr
-airway
-Rsamtools
-GenomicFeatures
-GenomicAlignments
-BiocParallel
-magrittr
-DESeq2
-vsn
-dplyr
-ggplot2
-pheatmap
-RColorBrewer
-PoiClaClu
-ggbeeswarm
-genefilter
-AnnotationDbi
-org.Hs.eg.db
-ReportingTools
-Gviz
-sva
-fission
-tximport
-tximportData
-edgeR
-Homo.sapiens
-Glimma
-topGO
-Rsubread
 
-## Martin Morgan
-AnnotationHub
-BSgenome.Hsapiens.UCSC.hg19
-BiocParallel
-Biostrings
-GenomicAlignments
-GenomicFiles
-GenomicRanges
-Gviz
-IRanges
-RNAseqData.HNRNPC.bam.chr14
-Rsamtools
-TxDb.Hsapiens.UCSC.hg19.knownGene
-VariantAnnotation
-biomaRt
-ggplot2
-knitr
-microbenchmark
-org.Hs.eg.db
-rtracklayer
+## Levi
 
-## Levi Waldron
-MultiAssayExperiment
-curatedMetagenomicData
-ComplexHeatmap
-survminer
-yriMulti
-gQTLstats
-ldblock
-DelayedArray
-UpSetR
-RaggedExperiment
-TxDb.Hsapiens.UCSC.hg19.knownGene
-org.Hs.eg.db
-GenomeInfoDb
-
-## Vince Carey
-seqc
-MLInterfaces
-gridExtra
-ggplot2
