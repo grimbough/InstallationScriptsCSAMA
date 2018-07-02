@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>CSAMA 2017: Data Analysis for Genome Scale Biology</title>
+<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+</head>
+
+<body>
+
+<h1>CSAMA'17<br/>Statistics and Computing in Genome Scale Biology</h1>
+
+<h2>Course materials</h2>
+
+<p>You can find the course materials <a href="./materials">here.</a><br/>The course-specific packages can be installed from the local repository (see below).</p>
+
+<h2>Initial setup script</h2>
+Run the following command in your R session to install all the packages required for the course.</p>
+<span class="code">
+source("http://192.168.0.9/install_packages.R")
+</span>
+
+<h2>Using the local R package repository</h2>
+
+<p>First you need to set up the local mirrors:</p>
+
+<span class="code">
+source("http://192.168.0.9/biocLite.R")
+</span>
+
+<p>Packages can be then installed using:</p>
+
+<span class="code">
+biocLite("package_name")
+</span>
+
+<p>We also have lab specific install scripts if you are missing packages for a single lab.  You only need to run the appropriate line below for the lab you are missing</p>
+
+<span class="code">
+source("http://192.168.0.9/lab1_packages.R")
+</span><br/><br/>
+<span class="code">
+source("http://192.168.0.9/lab3_packages.R")
+</span><br/><br/>
+<span class="code">
+source("http://192.168.0.9/lab4_packages.R")
+</span><br/><br/>
+<span class="code">
+source("http://192.168.0.9/lab5_packages.R")
+</span><br/><br/>
+<span class="code">
+source("http://192.168.0.9/lab6+7_packages.R")
+</span><br/><br/>
+<span class="code">
+source("http://192.168.0.9/lab8_packages.R")
+</span>
+
+
+<h2>Software</h2>
+<ul>
+<li><a href="./software/R/">R</a></li>
+<li><a href="./software/RStudio/">RStudio</a></li>
+<li><a href="./software/tools/">R Build Tools</a></li>
+</ul>
+
+</body>
+</html>

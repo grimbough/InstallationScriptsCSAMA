@@ -1,0 +1,47 @@
+body { 
+    font-family: sans-serif;
+    background-color: white;
+    font-size: 13px;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 1em 1em 2em;
+    line-height: 20px;
+}
+
+.code{
+    font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+    color: #333;
+    background-color: #eeeeee;
+    padding:5px;
+}
+
+ol {
+    margin: 0px;
+    
+}
+
+/* links are simply blue, hovering slightly less blue */
+a { color: #1a81c2; }
+a:active { outline: none; }
+a:visited { color: #1a81c2; }
+a:hover { color: #4c94c2; }
+
+h1, h2, h3, h4, h5, h6 { 
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 1.2em 0em 0.6em 0em;
+  font-weight: normal;
+  
+}
+
+h1 {
+  font-size: 250%;
+  color: #87b13f;
+  line-height: 1.1em;
+  margin-top: 0.6em;
+}
+
+h2 {
+  font-size: 160%;
+  color: #1a81c2;
+  border-bottom: 1px #1a81c2 solid;
+}
