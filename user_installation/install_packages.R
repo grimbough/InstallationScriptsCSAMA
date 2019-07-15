@@ -7,6 +7,8 @@
 ##---------------------------
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
+if (!requireNamespace("remotes", quietly = TRUE))
+    BiocManager::install("remotes", quiet = TRUE, update = FALSE, ask = FALSE)
 
 ##-------------------------------------------
 ## installation function
@@ -17,7 +19,9 @@ installer_with_progress <- function(pkgs) {
     if(length(pkgs) == 0) { invisible(return(NULL)) }
     
     if(!requireNamespace("progress", quietly = TRUE)) {
-      BiocManager::install('progress', quiet = TRUE, update = FALSE, ask = FALSE)
+      suppressMessages(
+        BiocManager::install('progress', quiet = TRUE, update = FALSE, ask = FALSE)
+      )
     }
     
     toInstall <- pkgs
@@ -32,12 +36,17 @@ installer_with_progress <- function(pkgs) {
         pkg <- toInstall[1]
         bp$tick(length_prev - length(toInstall),  tokens = list(package = pkg))
         length_prev <- length(toInstall)
-        tryCatch(
-            suppressMessages( BiocManager::install(pkg, quiet = TRUE, update = FALSE, ask = FALSE) ),
-            error = function(e) { fail <<- c(fail, pkg) },
-            warning = function(w) { fail <<- c(fail, pkg) },
-            finally = toInstall <- toInstall[-1]
+        if(pkg %in% rownames(installed.packages())) {
+          toInstall <- toInstall[-1]
+        } else {
+          tryCatch(
+              suppressMessages( BiocManager::install(pkg, quiet = TRUE, update = FALSE, ask = FALSE,
+                                                     Ncpus = parallel::detectCores()-1 ) ),
+              error = function(e) { fail <<- c(fail, pkg) },
+              warning = function(w) { fail <<- c(fail, pkg) },
+              finally = toInstall <- toInstall[-1]
         )
+        }
     }
     bp$tick(length_prev - length(toInstall),  tokens = list(package = "DONE!"))
     
@@ -98,7 +107,7 @@ if( !(R_version %in% .required_R_version) )
 ### Check Rstudio version
 hasApistudio = suppressWarnings(require("rstudioapi", quietly=TRUE))
 if( !hasApistudio ){
-  biocLite("rstudioapi", suppressUpdates=TRUE, siteRepos = .baseurl)
+  BiocManager::install("rstudioapi", upate=FALSE, siteRepos = .baseurl)
   suppressWarnings(require("rstudioapi", quietly=TRUE))
 }
 
@@ -110,7 +119,7 @@ if( inherits( .rstudioVersion, "try-error" ) ){
 }
 
 if( !( .rstudioVersion >= .required_rstudio_version ) ){
-  rstudioVersionError = sprintf("You are using a version of Rstudio different from the one required for CSAMA'%s, please install Rstudio v%s or higher.\nThe preview version of Rstudio can be found here: %s",
+  rstudioVersionError = sprintf("You are using a version of Rstudio different from the one required for CSAMA'%s, please install Rstudio v%s or higher.\nThe latest version of Rstudio can be found here: %s",
     .yr, .required_rstudio_version, .rstudio_url)
   stop( rstudioVersionError )
 }
@@ -122,7 +131,7 @@ if( BiocManager::version() != .required_Bioc_version )
   stop(sprintf("Please install Bioconductor %s\n", .required_Bioc_version))
 
 ## Get list of packages to install
-deps = c("affy", "airway", "annotate", "AnnotationDbi", "AnnotationFilter", "AnnotationHub", "apeglm", "assertthat", "base64enc", "beachmat", "beeswarm", "BH", "Biobase", "BiocFileCache", "BiocGenerics", "BiocManager", "BiocNeighbors", "BiocParallel", "BiocSingular", "BiocStyle", "biocViews", "biomaRt", "Biostrings", "bookdown", "BSgenome", "BSgenome.Hsapiens.UCSC.hg19", "BSgenome.Hsapiens.UCSC.hg38", "callr", "caret", "Category", "class", "cli", "clipr", "coda", "colourpicker", "cowplot", "crayon", "curatedMetagenomicData", "curatedTCGAData", "curl", "data.table", "DBI", "dbplyr", "DelayedArray", "DelayedMatrixStats", "dendextend", "DESeq2", "devtools", "digest", "doParallel", "dplyr", "dqrng", "DT", "dynamicTreeCut", "e1071", "EDASeq", "edgeR", "emdbook", "EnsDb.Hsapiens.v86", "ensembldb", "evaluate", "ExperimentHub", "extrafont", "extrafontdb", "fansi", "fdrtool", "FNN", "foreach", "genefilter", "geneplotter", "GenomeInfoDb", "GenomicAlignments", "GenomicFeatures", "GenomicRanges", "ggbeeswarm", "ggbio", "ggplot2", "git2r", "glue", "GO.db", "GOstats", "graphics", "grDevices", "grid", "GSEABase", "gtable", "gtools", "HDF5Array", "hexbin", "highr", "Hmisc", "hms", "Homo.sapiens", "htmltools", "httr", "hugene20sttranscriptcluster.db", "hwriter", "igraph", "IHW", "impute", "interactiveDisplayBase", "IRanges", "irlba", "iSEE", "iterators", "jsonlite", "kableExtra", "KEGGREST", "kernlab", "knitr", "LaplacesDemon", "lattice", "lazyeval", "limma", "locfit", "lpsymphony", "magick", "magrittr", "MALDIquant", "markdown", "MASS", "MassSpecWavelet", "Matrix", "matrixStats", "mclust", "memoise", "methods", "mgcv", "mikelove/airway2", "mime", "mixtools", "MLInterfaces", "msdata", "msdata (>= 0.24.1)", "MSnbase", "MSnID", "MultiAssayExperiment", "multtest", "mvtnorm", "mzID", "mzR", "nnet", "org.Hs.eg.db", "Organism.dplyr", "OrganismDbi", "pander", "parallel", "pcaMethods", "PFAM.db", "pheatmap", "pillar", "pkgbuild", "pkgconfig", "pkgload", "plogr", "plyr", "png", "PoiClaClu", "preprocessCore", "progress", "pRoloc", "pRolocdata", "ProtGenerics", "proxy", "R.cache", "R.utils", "R6", "randomForest", "RANN", "rappdirs", "rcmdcheck", "RColorBrewer", "Rcpp", "RcppAnnoy", "RcppArmadillo", "RcppEigen", "RcppNumerical", "RcppParallel", "RcppProgress", "RCurl", "readr", "remotes", "rentrez", "ReportingTools", "reshape2", "RforProteomics", "rintrojs", "rlang", "rmarkdown", "robustbase", "rols", "roxygen2", "rpx", "Rsamtools", "RSpectra", "RSQLite", "rstudioapi", "rsvd", "rtracklayer", "Rtsne", "Rttf2pt1", "RUVSeq", "rvest", "S4Vectors", "sampling", "scales", "scater", "scran", "scRNAseq", "sessioninfo", "shiny", "shinyAce", "shinydashboard", "shinyjs", "SingleCellExperiment", "slam", "statmod", "statOmics/MSqRob", "stats", "stats4", "stringr", "SummarizedExperiment", "survival", "sva", "sysfonts", "TENxPBMCData", "testthat", "tibble", "tidyr", "tidyselect", "tinytex", "tools", "tufte", "TxDb.Hsapiens.UCSC.hg19.knownGene", "TxDb.Hsapiens.UCSC.hg38.knownGene", "tximeta", "tximport", "usethis", "utils", "uwot", "vipor", "viridis", "viridisLite", "vsn", "webshot", "withr", "xcms", "xfun", "xfun ", "XML", "xml2", "XVector", "yaml", "zlibbioc")
+deps = c("affy", "airway", "annotate", "AnnotationDbi", "AnnotationHub", "apeglm", "assertthat", "base64enc", "beachmat", "beeswarm", "BH", "Biobase", "BiocFileCache", "BiocGenerics", "BiocManager", "BiocNeighbors", "BiocParallel", "BiocSingular", "BiocStyle", "biocViews", "biomaRt", "Biostrings", "bookdown", "BSgenome", "BSgenome.Hsapiens.UCSC.hg19", "BSgenome.Hsapiens.UCSC.hg38", "callr", "caret", "Category", "class", "cli", "clipr", "coda", "colourpicker", "cowplot", "crayon", "curatedMetagenomicData", "curatedTCGAData", "curl", "data.table", "DBI", "dbplyr", "DelayedArray", "DelayedMatrixStats", "dendextend", "DESeq2", "devtools", "digest", "doParallel", "dplyr", "dqrng", "DT", "dynamicTreeCut", "e1071", "edgeR", "emdbook", "EnsDb.Hsapiens.v86", "ensembldb", "evaluate", "ExperimentHub", "extrafont", "extrafontdb", "fansi", "fdrtool", "FNN", "foreach", "genefilter", "geneplotter", "GenomeInfoDb", "GenomicAlignments", "GenomicFeatures", "GenomicRanges", "ggbeeswarm", "ggbio", "ggplot2", "git2r", "glue", "GO.db", "GOstats", "graphics", "grDevices", "grid", "GSEABase", "gtable", "gtools", "HDF5Array", "hexbin", "highr", "Hmisc", "hms", "Homo.sapiens", "htmltools", "httr", "hugene20sttranscriptcluster.db", "hwriter", "igraph", "IHW", "impute", "interactiveDisplayBase", "IRanges", "irlba", "iSEE", "iterators", "jsonlite", "KEGGREST", "kernlab", "knitr", "LaplacesDemon", "lattice", "lazyeval", "limma", "locfit", "lpsymphony", "magick", "magrittr", "MALDIquant", "markdown", "MASS", "MassSpecWavelet", "Matrix", "matrixStats", "mclust", "memoise", "methods", "mgcv", "mikelove/airway2", "mime", "mixtools", "msdata", "MSnbase", "MSnID", "multtest", "mvtnorm", "mzID", "mzR", "nnet", "org.Hs.eg.db", "Organism.dplyr", "pander", "parallel", "pcaMethods", "PFAM.db", "pheatmap", "pillar", "pkgbuild", "pkgconfig", "pkgload", "plogr", "plyr", "png", "PoiClaClu", "preprocessCore", "progress", "pRoloc", "pRolocdata", "ProtGenerics", "proxy", "R.cache", "R.utils", "R6", "randomForest", "RANN", "rappdirs", "rcmdcheck", "RColorBrewer", "Rcpp", "RcppAnnoy", "RcppArmadillo", "RcppEigen", "RcppNumerical", "RcppParallel", "RcppProgress", "RCurl", "readr", "remotes", "rentrez", "ReportingTools", "reshape2", "RforProteomics", "rintrojs", "rlang", "rmarkdown", "robustbase", "rols", "roxygen2", "rpx", "Rsamtools", "RSpectra", "RSQLite", "rstudioapi", "rsvd", "rtracklayer", "Rtsne", "Rttf2pt1", "RUVSeq", "S4Vectors", "sampling", "scales", "scater", "scran", "scRNAseq", "sessioninfo", "shiny", "shinyAce", "shinydashboard", "shinyjs", "SingleCellExperiment", "slam", "statmod", "statOmics/MSqRob", "stats", "stats4", "stringr", "SummarizedExperiment", "survival", "sva", "sysfonts", "TENxPBMCData", "testthat", "tibble", "tidyr", "tidyselect", "tinytex", "tools", "tufte", "TxDb.Hsapiens.UCSC.hg19.knownGene", "TxDb.Hsapiens.UCSC.hg38.knownGene", "tximeta", "tximport", "utils", "uwot", "vipor", "viridis", "viridisLite", "vsn", "withr", "xcms", "xfun", "xfun ", "XML", "xml2", "XVector", "yaml", "zlibbioc")
 
 ## omit packages not supported on WIN and MAC
 type = getOption("pkgType")
@@ -134,23 +143,38 @@ toInstall = deps[which( !deps %in% rownames(installed.packages()))]
 ## set up directory where downloaded packages are stored
 destdir = NULL
             
-if (interactive()) {
-  cat(sprintf("\nDownloaded packages will be stored in %s.\n\nPress enter to proceed (recommended) or provide a different path: ", file.path(Sys.getenv("R_SESSION_TMPDIR"), "downloaded_packages")))
-  answer <- readLines(n = 1)
-  if(nchar(answer) > 1) 
-    destdir = answer
-}
+#if (interactive()) {
+#  cat(sprintf("\nDownloaded packages will be stored in %s.\n\nPress enter to proceed (recommended) or provide a different path: ", #file.path(Sys.getenv("R_SESSION_TMPDIR"), "downloaded_packages")))
+#  answer <- readLines(n = 1)
+#  if(nchar(answer) > 1) 
+#    destdir = answer
+#}
 
 # do not compile from sources
 options(install.packages.compile.from.source = "never")
-fail <- installer_with_progress(pkgsToInstall)
+if(.Platform$OS.type == "windows") {
+  BiocManager::install(toInstall, ask = FALSE, quiet = TRUE, update = FALSE)
+} else {
+  fail <- installer_with_progress(toInstall)
+}
 
 ##---------------------------
 ## Additional installation commands
 ##---------------------------
-TENxPBMCData(dataset = "pbmc3k")
+if(Biobase::package.version("msdata") < "0.24.1") {
+  BiocManager::install(msdata, ask = FALSE, quiet = TRUE, update = FALSE)
+}
 
+TENxPBMCData::TENxPBMCData(dataset = "pbmc3k")
 
+library("ensembldb")
+ah <- AnnotationHub::AnnotationHub()
+ah_91 <- query(ah, "EnsDb.Hsapiens.v91")
+edb <- ah[[names(ah_91)]]
+
+##-------------------------
+## Feedback on installation
+##---------------------------
 if(all( deps %in% rownames(installed.packages()) )) {
   cat(sprintf("\nCongratulations! All packages were installed successfully :)\nWe are looking forward to seeing you in Brixen!\n\n"))
 } else {

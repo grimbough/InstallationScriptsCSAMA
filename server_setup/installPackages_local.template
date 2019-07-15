@@ -85,6 +85,8 @@ if( biocVersion() != .required_Bioc_version )
 
 ## Get list of packages to install
 deps = DEPS
+## strip github repos so we can check if they've been installed later
+deps_check <- gsub(x = deps, "^[[:alnum:]]+/", replacement = "")
 
 ## omit packages not supported on WIN and MAC
 type = getOption("pkgType")
@@ -109,10 +111,10 @@ biocLite(toInstall,
   type = ifelse(type == "source", "source", "both"),
   destdir = destdir)
 
-if(all( deps %in% rownames(installed.packages()) )) {
+if(all( deps_check %in% rownames(installed.packages()) )) {
   cat(sprintf("\nCongratulations! All packages were installed successfully :)\nWe are looking forward to seeing you in Brixen!\n\n"))
 } else {
-  notinstalled <- deps[which( !deps %in% rownames(installed.packages()) )]
+  notinstalled <- deps_check[which( !deps_check %in% rownames(installed.packages()) )]
   
   cat(sprintf("\nThe following package%s not installed:\n\n%s\n\nPlease try re-running the script to see whether the problem persists.\nIf you need help with troubleshooting, consider contacting the course organisers, or the Bioconductor mailing list.\n\n",
     if (length(notinstalled)<=1) " was" else "s were", paste( notinstalled, collapse="\n" )))

@@ -7,6 +7,8 @@
 ##---------------------------
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
+if (!requireNamespace("remotes", quietly = TRUE))
+    BiocManager::install("remotes", quiet = TRUE, update = FALSE, ask = FALSE)
 
 ##-------------------------------------------
 ## installation function
@@ -17,7 +19,9 @@ installer_with_progress <- function(pkgs) {
     if(length(pkgs) == 0) { invisible(return(NULL)) }
     
     if(!requireNamespace("progress", quietly = TRUE)) {
-      BiocManager::install('progress', quiet = TRUE, update = FALSE, ask = FALSE)
+      suppressMessages(
+        BiocManager::install('progress', quiet = TRUE, update = FALSE, ask = FALSE)
+      )
     }
     
     toInstall <- pkgs
@@ -32,12 +36,17 @@ installer_with_progress <- function(pkgs) {
         pkg <- toInstall[1]
         bp$tick(length_prev - length(toInstall),  tokens = list(package = pkg))
         length_prev <- length(toInstall)
-        tryCatch(
-            suppressMessages( BiocManager::install(pkg, quiet = TRUE, update = FALSE, ask = FALSE) ),
-            error = function(e) { fail <<- c(fail, pkg) },
-            warning = function(w) { fail <<- c(fail, pkg) },
-            finally = toInstall <- toInstall[-1]
+        if(pkg %in% rownames(installed.packages())) {
+          toInstall <- toInstall[-1]
+        } else {
+          tryCatch(
+              suppressMessages( BiocManager::install(pkg, quiet = TRUE, update = FALSE, ask = FALSE,
+                                                     Ncpus = parallel::detectCores()-1 ) ),
+              error = function(e) { fail <<- c(fail, pkg) },
+              warning = function(w) { fail <<- c(fail, pkg) },
+              finally = toInstall <- toInstall[-1]
         )
+        }
     }
     bp$tick(length_prev - length(toInstall),  tokens = list(package = "DONE!"))
     
@@ -98,7 +107,7 @@ if( !(R_version %in% .required_R_version) )
 ### Check Rstudio version
 hasApistudio = suppressWarnings(require("rstudioapi", quietly=TRUE))
 if( !hasApistudio ){
-  biocLite("rstudioapi", suppressUpdates=TRUE, siteRepos = .baseurl)
+  BiocManager::install("rstudioapi", upate=FALSE, siteRepos = .baseurl)
   suppressWarnings(require("rstudioapi", quietly=TRUE))
 }
 
@@ -110,7 +119,7 @@ if( inherits( .rstudioVersion, "try-error" ) ){
 }
 
 if( !( .rstudioVersion >= .required_rstudio_version ) ){
-  rstudioVersionError = sprintf("You are using a version of Rstudio different from the one required for CSAMA'%s, please install Rstudio v%s or higher.\nThe preview version of Rstudio can be found here: %s",
+  rstudioVersionError = sprintf("You are using a version of Rstudio different from the one required for CSAMA'%s, please install Rstudio v%s or higher.\nThe latest version of Rstudio can be found here: %s",
     .yr, .required_rstudio_version, .rstudio_url)
   stop( rstudioVersionError )
 }
@@ -134,23 +143,38 @@ toInstall = deps[which( !deps %in% rownames(installed.packages()))]
 ## set up directory where downloaded packages are stored
 destdir = NULL
             
-if (interactive()) {
-  cat(sprintf("\nDownloaded packages will be stored in %s.\n\nPress enter to proceed (recommended) or provide a different path: ", file.path(Sys.getenv("R_SESSION_TMPDIR"), "downloaded_packages")))
-  answer <- readLines(n = 1)
-  if(nchar(answer) > 1) 
-    destdir = answer
-}
+#if (interactive()) {
+#  cat(sprintf("\nDownloaded packages will be stored in %s.\n\nPress enter to proceed (recommended) or provide a different path: ", #file.path(Sys.getenv("R_SESSION_TMPDIR"), "downloaded_packages")))
+#  answer <- readLines(n = 1)
+#  if(nchar(answer) > 1) 
+#    destdir = answer
+#}
 
 # do not compile from sources
 options(install.packages.compile.from.source = "never")
-fail <- installer_with_progress(pkgsToInstall)
+if(.Platform$OS.type == "windows") {
+  BiocManager::install(toInstall, ask = FALSE, quiet = TRUE, update = FALSE)
+} else {
+  fail <- installer_with_progress(toInstall)
+}
 
 ##---------------------------
 ## Additional installation commands
 ##---------------------------
-TENxPBMCData(dataset = "pbmc3k")
+if(Biobase::package.version("msdata") < "0.24.1") {
+  BiocManager::install(msdata, ask = FALSE, quiet = TRUE, update = FALSE)
+}
 
+TENxPBMCData::TENxPBMCData(dataset = "pbmc3k")
 
+library("ensembldb")
+ah <- AnnotationHub::AnnotationHub()
+ah_91 <- query(ah, "EnsDb.Hsapiens.v91")
+edb <- ah[[names(ah_91)]]
+
+##-------------------------
+## Feedback on installation
+##---------------------------
 if(all( deps %in% rownames(installed.packages()) )) {
   cat(sprintf("\nCongratulations! All packages were installed successfully :)\nWe are looking forward to seeing you in Brixen!\n\n"))
 } else {
