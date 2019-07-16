@@ -1,10 +1,10 @@
 **/src/contrib/*.gz
 **/src/contrib/PACKAGES
 **/src/contrib/PACKAGES.gz
-**/bin/windows/**/3.5/*.zip
-**/bin/windows/**/3.5/PACKAGES
-**/bin/windows/**/3.5/PACKAGES.gz
-**/bin/macosx/**/3.5/*.tgz
-**/bin/macosx/**/3.5/PACKAGES
-**/bin/macosx/**/3.5/PACKAGES.gz
+**/bin/windows/**/3.6/*.zip
+**/bin/windows/**/3.6/PACKAGES
+**/bin/windows/**/3.6/PACKAGES.gz
+**/bin/macosx/**/3.6/*.tgz
+**/bin/macosx/**/3.6/PACKAGES
+**/bin/macosx/**/3.6/PACKAGES.gz
 

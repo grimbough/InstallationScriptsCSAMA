@@ -20,11 +20,5 @@ $wget http://bioconductor.statistik.tu-dortmund.de/packages/$Bioc_ver/data/exper
 $wget http://bioconductor.statistik.tu-dortmund.de/packages/$Bioc_ver/data/experiment/bin/windows/contrib/$R_ver/
 $wget http://bioconductor.statistik.tu-dortmund.de/packages/$Bioc_ver/data/experiment/bin/macosx/el-capitan/contrib/$R_ver/
 
-# no longer required
-#$wget http://bioconductor.statistik.tu-dortmund.de/packages/$Bioc_ver/extra/src/contrib/
-#$wget http://bioconductor.statistik.tu-dortmund.de/packages/$Bioc_ver/extra/bin/windows/contrib/$R_ver/
-#$wget http://bioconductor.statistik.tu-dortmund.de/packages/$Bioc_ver/extra/bin/macosx/contrib/$R_ver/
-#$wget http://bioconductor.statistik.tu-dortmund.de/packages/$Bioc_ver/extra/bin/macosx/mavericks/contrib/$R_ver/
-
-mv bioconductor.statistik.tu-dortmund.de/packages/$Bioc_ver $HOME/R_packages/bioc_$Bioc_ver
+#mv bioconductor.statistik.tu-dortmund.de/packages/${Bioc_ver} $HOME/R_packages/bioc_${Bioc_ver}
 
