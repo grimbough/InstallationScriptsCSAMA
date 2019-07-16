@@ -2,22 +2,24 @@
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>CSAMA 2017: Data Analysis for Genome Scale Biology</title>
+<title>CSAMA 2019: Data Analysis for Genome Scale Biology</title>
 <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
 </head>
 
 <body>
 
-<h1>CSAMA'17<br/>Statistics and Computing in Genome Scale Biology</h1>
+<h1>CSAMA'19<br/>Statistics and Computing in Genome Scale Biology</h1>
 
 <h2>Course materials</h2>
 
-<p>You can find the course materials <a href="./materials">here.</a><br/>The course-specific packages can be installed from the local repository (see below).</p>
+<p>You can find curated course materials <a href="./materials">here.</a><br/>Any course-specific packages can be installed from the local repository (see below).</p>
+
+<p>You can also find the course Github repository at <a href="https://github.com/Bioconductor/CSAMA/">https://github.com/Bioconductor/CSAMA/</a></p>
 
 <h2>Initial setup script</h2>
 Run the following command in your R session to install all the packages required for the course.</p>
 <span class="code">
-source("http://192.168.0.9/install_packages.R")
+source("http://192.168.0.5/install_packages.R")
 </span>
 
 <h2>Using the local R package repository</h2>
@@ -25,15 +27,17 @@ source("http://192.168.0.9/install_packages.R")
 <p>First you need to set up the local mirrors:</p>
 
 <span class="code">
-source("http://192.168.0.9/biocLite.R")
+options(repos = "http://192.168.0.5/packages/cran")
+options(BioC_mirror = "http://192.168.0.5/")
 </span>
 
 <p>Packages can be then installed using:</p>
 
 <span class="code">
-biocLite("package_name")
+BiocManager::install("package_name")
 </span>
 
+<!--
 <p>We also have lab specific install scripts if you are missing packages for a single lab.  You only need to run the appropriate line below for the lab you are missing</p>
 
 <span class="code">
@@ -54,7 +58,7 @@ source("http://192.168.0.9/lab6+7_packages.R")
 <span class="code">
 source("http://192.168.0.9/lab8_packages.R")
 </span>
-
+-->
 
 <h2>Software</h2>
 <ul>
