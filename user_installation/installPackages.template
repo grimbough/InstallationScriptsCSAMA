@@ -126,9 +126,6 @@ if( !( .rstudioVersion >= .required_rstudio_version ) ){
   stop( rstudioVersionError )
 }
 
-#if( BiocManager::version() == .Bioc_devel_version )
-#  useDevel(devel = FALSE)
-
 if( BiocManager::version() != .required_Bioc_version )
   stop(sprintf("Please install Bioconductor %s\n", .required_Bioc_version))
 
@@ -148,13 +145,6 @@ toInstall = deps[which( !deps$name %in% rownames(installed.packages())), "source
 ## set up directory where downloaded packages are stored
 destdir = NULL
             
-#if (interactive()) {
-#  cat(sprintf("\nDownloaded packages will be stored in %s.\n\nPress enter to proceed (recommended) or provide a different path: ", #file.path(Sys.getenv("R_SESSION_TMPDIR"), "downloaded_packages")))
-#  answer <- readLines(n = 1)
-#  if(nchar(answer) > 1) 
-#    destdir = answer
-#}
-
 # do not compile from sources
 options(install.packages.compile.from.source = "never")
 if(.Platform$OS.type == "windows" || Sys.info()["sysname"] == "Darwin") {
@@ -192,10 +182,19 @@ if(all( deps$name %in% rownames(installed.packages()) )) {
     that was not installed, there is no reason to worry. \n")
   }
   
-  cat(sprintf("\nThe following package%s not installed:\n\n%s\n\nPlease try re-running the script to see whether the problem persists.\nIf you need help with troubleshooting, consider contacting the course organisers, or the Bioconductor mailing list.\n\n",
-    if (length(notinstalled)<=1) " was" else "s were", paste( notinstalled, collapse="\n" )))
+  cat(sprintf("\nThe following package%s not installed:\n\n%s\n\n", if (length(notinstalled)<=1) " was" else "s were", paste( notinstalled, collapse="\n" )))
+  
+  if( .Platform$pkgType != "source" ){
+      message("Please try re-running the script to see whether the problem persists.")
+  } else {
+      install_command <- paste0("BiocManager::install(c('", paste(notinstalled, collapse = "', '"), "')")
+      message("Please try running the following command to attempt installation again:\n\n",
+      install_command, "\n\n")
+  }
+  
+  message("If you need help with troubleshooting, please contact the course organisers, or the CSAMA'19 Slack channel (https://csama-2019.slack.com).")
   
   if( .Platform$pkgType == "source" ){
-    message("Some of the packages (e.g. 'Cairo', 'mzR', rgl', 'RCurl', 'tiff', 'XML') that failed to install may require additional system libraries.*  Please check the documentation of these packages for unsatisfied dependencies.\n\n*).  A list of required libraries for Ubuntu can be found at http://www.huber.embl.de/users/msmith/csama2019/linux_libraries.html \n\n")
+    message("Some of the packages (e.g. 'Cairo', 'mzR', rgl', 'RCurl', 'tiff', 'XML') that failed to install may require additional system libraries.*  Please check the documentation of these packages for unsatisfied dependencies.\n A list of required libraries for Ubuntu can be found at http://www.huber.embl.de/users/msmith/csama2019/linux_libraries.html \n\n")
   }
 }
