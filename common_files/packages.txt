@@ -26,25 +26,33 @@ MSnID
 ## Robert Gentleman (RG)
 
 ## Wolfgang Huber (WH)
-airway
-bookdown
-curatedMetagenomicData
-DESeq2
-devtools
+colorspace
 dplyr
-e1071
-extrafont
-fdrtool
+GenomicRanges
 ggbeeswarm
+ggbio
 ggplot2
-IHW
-magick
-parallel
+ggthemes
+grid
+Hiiragi2013
+Hmisc
+magrittr
+modes
+mouse4302.db
+pheatmap
+plotly
 RColorBrewer
-readr
-rmarkdown
+reshape2
+rgl
+showtext
 sysfonts
-xfun
+tibble
+xkcd
+grDevices
+knitr
+Biobase
+AnnotationDbi
+biovizBase
 
 ## Katharina Imkeller (KI)
 

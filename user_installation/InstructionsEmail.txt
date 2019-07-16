@@ -7,7 +7,7 @@ Mandatory steps:
 
 1. Please install the current release version of R (version 3.6.1).  For more instructions, please check https://cran.r-project.org/
 
-2. Please install and set up Git. One of our lecturers, Jenny Bryan, has some excellent instructions available at http://happygitwithr.com/install-git.html
+2. Please install and set up Git. Jenny Bryan has some excellent instructions available at http://happygitwithr.com/install-git.html
 
 If you are using Windows we recommend Git-For-Windows (https://git-for-windows.github.io/) and if you are using a Mac our suggestion is Git-SCM (https://git-scm.com/downloads)
 
@@ -19,11 +19,13 @@ If you are using Windows we recommend Git-For-Windows (https://git-for-windows.g
 
   source("http://www-huber.embl.de/users/msmith/csama2019/install_packages.R")
 
-The script will check if you have the versions of R, Bioconductor and RStudio that are required for the course. The script will also install the R/Bioconductor packages needed for the course. The script might trigger a question about whether you would like to update old packages, please select the option to update “all”.  This process may take a long time, it is generally OK to leave it running after you have answered the initial questions.
+The script will check if you have the versions of R, Bioconductor and RStudio that are required for the course. The script will also install the R/Bioconductor packages needed for the course. The script might trigger a question about whether you would like to update old packages, please select the option to update “all”.  It will also download several datasets used during the course, and may prompt you to create new folders.  It is safe to use the default options here.  This process may take a long time, but it is generally OK to leave it running after the installation has started.
 
 If you encounter any errors, please pay close attention to the messages displayed, they may contain further instructions. 
 
-For questions regarding software installation, please contact any or all of Mike Smith (mike.smith [at] embl.de) or Lori Shepherd (lori.shepherd [at] roswellpark.org)
+For questions regarding software installation, please contact Mike Smith (mike.smith [at] embl.de).
+
+We also have a Slack channel for the course (https://csama-2019.slack.com) where you can ask support questions and meet fellow course participants.  An invite to this will follow shortly.
 
 Best regards, 
 The CSAMA'19 organizers

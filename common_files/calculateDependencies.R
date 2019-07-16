@@ -79,7 +79,7 @@ for (pMat in pkgMatList) {
         for ( p in pcks )
             deps <- c(deps, 
                       #pkgDepTools:::cleanPkgField(pMat[p, "Depends"]),
-                      pkgDepTools:::cleanPkgField(pMat[p, "Imports"]),
+                      #pkgDepTools:::cleanPkgField(pMat[p, "Imports"]),
                       pkgDepTools:::cleanPkgField(pMat[p, "LinkingTo"])
                       #pkgDepTools:::cleanPkgField(pMat[p, "Suggests"])
             )
