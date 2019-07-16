@@ -9,6 +9,8 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 if (!requireNamespace("remotes", quietly = TRUE))
     BiocManager::install("remotes", quiet = TRUE, update = FALSE, ask = FALSE)
+if (!requireNamespace("Biobase", quietly = TRUE))
+    BiocManager::install("Biobase", quiet = TRUE, update = FALSE, ask = FALSE)
 
 ##-------------------------------------------
 ## installation function
@@ -41,7 +43,7 @@ installer_with_progress <- function(pkgs) {
         } else {
           tryCatch(
               suppressMessages( BiocManager::install(pkg, quiet = TRUE, update = FALSE, ask = FALSE,
-                                                     Ncpus = parallel::detectCores()-1 ) ),
+                                                     Ncpus = parallel::detectCores() ) ),
               error = function(e) { fail <<- c(fail, pkg) },
               warning = function(w) { fail <<- c(fail, pkg) },
               finally = toInstall <- toInstall[-1]
@@ -107,7 +109,7 @@ if( !(R_version %in% .required_R_version) )
 ### Check Rstudio version
 hasApistudio = suppressWarnings(require("rstudioapi", quietly=TRUE))
 if( !hasApistudio ){
-  BiocManager::install("rstudioapi", upate=FALSE, siteRepos = .baseurl)
+  BiocManager::install("rstudioapi", update=FALSE, siteRepos = .baseurl, quiet = TRUE, ask = FALSE)
   suppressWarnings(require("rstudioapi", quietly=TRUE))
 }
 
@@ -131,14 +133,17 @@ if( BiocManager::version() != .required_Bioc_version )
   stop(sprintf("Please install Bioconductor %s\n", .required_Bioc_version))
 
 ## Get list of packages to install
-deps = c("affy", "airway", "annotate", "AnnotationDbi", "AnnotationHub", "apeglm", "assertthat", "base64enc", "beachmat", "beeswarm", "BH", "Biobase", "BiocFileCache", "BiocGenerics", "BiocManager", "BiocNeighbors", "BiocParallel", "BiocSingular", "BiocStyle", "biocViews", "biomaRt", "Biostrings", "bookdown", "BSgenome", "BSgenome.Hsapiens.UCSC.hg19", "BSgenome.Hsapiens.UCSC.hg38", "callr", "caret", "Category", "class", "cli", "clipr", "coda", "colourpicker", "cowplot", "crayon", "curatedMetagenomicData", "curatedTCGAData", "curl", "data.table", "DBI", "dbplyr", "DelayedArray", "DelayedMatrixStats", "dendextend", "DESeq2", "devtools", "digest", "doParallel", "dplyr", "dqrng", "DT", "dynamicTreeCut", "e1071", "edgeR", "emdbook", "EnsDb.Hsapiens.v86", "ensembldb", "evaluate", "ExperimentHub", "extrafont", "extrafontdb", "fansi", "fdrtool", "FNN", "foreach", "genefilter", "geneplotter", "GenomeInfoDb", "GenomicAlignments", "GenomicFeatures", "GenomicRanges", "ggbeeswarm", "ggbio", "ggplot2", "git2r", "glue", "GO.db", "GOstats", "graphics", "grDevices", "grid", "GSEABase", "gtable", "gtools", "HDF5Array", "hexbin", "highr", "Hmisc", "hms", "Homo.sapiens", "htmltools", "httr", "hugene20sttranscriptcluster.db", "hwriter", "igraph", "IHW", "impute", "interactiveDisplayBase", "IRanges", "irlba", "iSEE", "iterators", "jsonlite", "KEGGREST", "kernlab", "knitr", "LaplacesDemon", "lattice", "lazyeval", "limma", "locfit", "lpsymphony", "magick", "magrittr", "MALDIquant", "markdown", "MASS", "MassSpecWavelet", "Matrix", "matrixStats", "mclust", "memoise", "methods", "mgcv", "mikelove/airway2", "mime", "mixtools", "msdata", "MSnbase", "MSnID", "multtest", "mvtnorm", "mzID", "mzR", "nnet", "org.Hs.eg.db", "Organism.dplyr", "pander", "parallel", "pcaMethods", "PFAM.db", "pheatmap", "pillar", "pkgbuild", "pkgconfig", "pkgload", "plogr", "plyr", "png", "PoiClaClu", "preprocessCore", "progress", "pRoloc", "pRolocdata", "ProtGenerics", "proxy", "R.cache", "R.utils", "R6", "randomForest", "RANN", "rappdirs", "rcmdcheck", "RColorBrewer", "Rcpp", "RcppAnnoy", "RcppArmadillo", "RcppEigen", "RcppNumerical", "RcppParallel", "RcppProgress", "RCurl", "readr", "remotes", "rentrez", "ReportingTools", "reshape2", "RforProteomics", "rintrojs", "rlang", "rmarkdown", "robustbase", "rols", "roxygen2", "rpx", "Rsamtools", "RSpectra", "RSQLite", "rstudioapi", "rsvd", "rtracklayer", "Rtsne", "Rttf2pt1", "RUVSeq", "S4Vectors", "sampling", "scales", "scater", "scran", "scRNAseq", "sessioninfo", "shiny", "shinyAce", "shinydashboard", "shinyjs", "SingleCellExperiment", "slam", "statmod", "statOmics/MSqRob", "stats", "stats4", "stringr", "SummarizedExperiment", "survival", "sva", "sysfonts", "TENxPBMCData", "testthat", "tibble", "tidyr", "tidyselect", "tinytex", "tools", "tufte", "TxDb.Hsapiens.UCSC.hg19.knownGene", "TxDb.Hsapiens.UCSC.hg38.knownGene", "tximeta", "tximport", "utils", "uwot", "vipor", "viridis", "viridisLite", "vsn", "withr", "xcms", "xfun", "xfun ", "XML", "xml2", "XVector", "yaml", "zlibbioc")
+deps <- c("affy", "airway", "annotate", "AnnotationDbi", "AnnotationHub", "ape", "apeglm", "assertthat", "base64enc", "batchelor", "beachmat", "beeswarm", "BH", "bigrquery", "Biobase", "BiocFileCache", "BiocGenerics", "BiocManager", "BiocNeighbors", "BiocParallel", "BiocSingular", "BiocStyle", "biocViews", "biomaRt", "Biostrings", "bookdown", "BSgenome", "BSgenome.Hsapiens.UCSC.hg19", "BSgenome.Hsapiens.UCSC.hg38", "callr", "caret", "Category", "class", "cli", "clipr", "cluster", "clusterExperiment", "coda", "colourpicker", "copula", "cowplot", "crayon", "curatedMetagenomicData", "curatedTCGAData", "curl", "data.table", "DBI", "dbplyr", "DelayedArray", "DelayedMatrixStats", "dendextend", "DESeq2", "devtools", "digest", "doParallel", "dplyr", "dqrng", "DT", "dynamicTreeCut", "e1071", "edgeR", "emdbook", "EnsDb.Hsapiens.v86", "ensembldb", "evaluate", "ExperimentHub", "extrafont", "extrafontdb", "fansi", "fdrtool", "FNN", "foreach", "fpc", "gbm", "gdata", "genefilter", "geneplotter", "GenomeInfoDb", "GenomicAlignments", "GenomicFeatures", "GenomicRanges", "ggbeeswarm", "ggbio", "ggplot2", "ggvis", "git2r", "glmnet", "glue", "GO.db", "GOstats", "graph", "graphics", "grDevices", "grid", "GSEABase", "gtable", "gtools", "gwascat", "HDF5Array", "hexbin", "highr", "Hmisc", "hms", "Homo.sapiens", "howmany", "htmltools", "httr", "hugene20sttranscriptcluster.db", "HumanTranscriptomeCompendium", "hwriter", "igraph", "IHW", "impute", "interactiveDisplayBase", "IRanges", "irlba", "iSEE", "iterators", "jsonlite", "kernlab", "knitr", "LaplacesDemon", "lattice", "lazyeval", "limma", "locfdr", "locfit", "lpsymphony", "magick", "magrittr", "MALDIquant", "markdown", "MASS", "MassSpecWavelet", "Matrix", "matrixStats", "mclust", "memoise", "methods", "mgcv", "mikelove/airway2", "mime", "mixtools", "mlbench", "MLInterfaces", "msdata", "MSnbase", "MSnID", "multtest", "mvtnorm", "mzID", "mzR", "NMF", "nnet", "ontologyPlot", "ontoProc", "org.Hs.eg.db", "Organism.dplyr", "pander", "parallel", "pcaMethods", "PFAM.db", "pheatmap", "phylobase", "pillar", "pkgbuild", "pkgconfig", "pkgload", "plogr", "pls", "plyr", "png", "PoiClaClu", "pracma", "preprocessCore", "progress", "pRoloc", "pRolocdata", "ProtGenerics", "proxy", "R.cache", "R.utils", "R6", "randomForest", "RANN", "rappdirs", "rcmdcheck", "RColorBrewer", "Rcpp", "RcppAnnoy", "RcppArmadillo", "RcppEigen", "RcppNumerical", "RcppParallel", "RcppProgress", "RCurl", "rda", "readr", "remotes", "rentrez", "ReportingTools", "reshape2", "restfulSE", "RforProteomics", "rgl", "Rgraphviz", "rhdf5client", "rintrojs", "rjson", "rlang", "rmarkdown", "robustbase", "rols", "roxygen2", "rpart", "rpx", "Rsamtools", "RSpectra", "RSQLite", "rstudioapi", "rsvd", "rtracklayer", "Rtsne", "Rttf2pt1", "RUVSeq", "S4Vectors", "sampling", "scales", "scater", "scran", "scRNAseq", "sessioninfo", "sfsmisc", "shiny", "shinyAce", "shinydashboard", "shinyjs", "SingleCellExperiment", "slam", "slingshot", "softImpute", "ssrch", "statmod", "statOmics/MSqRob", "stats", "stats4", "stringr", "SummarizedExperiment", "survival", "sva", "sysfonts", "TENxPBMCData", "testthat", "threejs", "tibble", "tidyr", "tidyselect", "tinytex", "tools", "TxDb.Hsapiens.UCSC.hg19.knownGene", "TxDb.Hsapiens.UCSC.hg38.knownGene", "tximeta", "tximport", "TxRegInfra", "utils", "uwot", "vipor", "viridis", "viridisLite", "vsn", "withr", "xcms", "xfun", "XML", "xml2", "XVector", "yaml", "zinbwave", "zlibbioc")
+deps <- data.frame(name = gsub(x = deps, "^[[:alnum:]]+/", ""),
+                  source = deps, 
+                  stringsAsFactors = FALSE)
 
 ## omit packages not supported on WIN and MAC
-type = getOption("pkgType")
-if ( type == "win.binary" || type == "mac.binary" ) {
+#type = getOption("pkgType")
+#if ( type == "win.binary" || type == "mac.binary" ) {
   #  deps = setdiff(deps, c('gmapR'))
-}
-toInstall = deps[which( !deps %in% rownames(installed.packages()))]
+#}
+toInstall = deps[which( !deps$name %in% rownames(installed.packages())), "source"]
 
 ## set up directory where downloaded packages are stored
 destdir = NULL
@@ -152,7 +157,7 @@ destdir = NULL
 
 # do not compile from sources
 options(install.packages.compile.from.source = "never")
-if(.Platform$OS.type == "windows") {
+if(.Platform$OS.type == "windows" || Sys.info()["sysname"] == "Darwin") {
   BiocManager::install(toInstall, ask = FALSE, quiet = TRUE, update = FALSE)
 } else {
   fail <- installer_with_progress(toInstall)
@@ -166,19 +171,20 @@ if(Biobase::package.version("msdata") < "0.24.1") {
 }
 
 TENxPBMCData::TENxPBMCData(dataset = "pbmc3k")
+TENxPBMCData::TENxPBMCData(dataset = "pbmc4k")
 
 library("ensembldb")
 ah <- AnnotationHub::AnnotationHub()
-ah_91 <- query(ah, "EnsDb.Hsapiens.v91")
+ah_91 <- AnnotationHub::query(ah, "EnsDb.Hsapiens.v91")
 edb <- ah[[names(ah_91)]]
 
 ##-------------------------
 ## Feedback on installation
 ##---------------------------
-if(all( deps %in% rownames(installed.packages()) )) {
+if(all( deps$name %in% rownames(installed.packages()) )) {
   cat(sprintf("\nCongratulations! All packages were installed successfully :)\nWe are looking forward to seeing you in Brixen!\n\n"))
 } else {
-  notinstalled <- deps[which( !deps %in% rownames(installed.packages()) )]
+  notinstalled <- deps[which( !deps$name %in% rownames(installed.packages()) ), "name"]
 
 
   if( .Platform$pkgType == "win.binary" & 'Rsubread' %in% notinstalled ){
@@ -190,6 +196,6 @@ if(all( deps %in% rownames(installed.packages()) )) {
     if (length(notinstalled)<=1) " was" else "s were", paste( notinstalled, collapse="\n" )))
   
   if( .Platform$pkgType == "source" ){
-    message("Some of the packages (e.g. 'Cairo', 'fftwtools', 'mzR', rgl', 'RCurl', 'tiff', 'XML') that failed to install may require additional system libraries.*  Please check the documentation of these packages for unsatisfied dependencies.\n\n*).  A list of required libraries for Ubuntu can be found at http://www.huber.embl.de/users/msmith/csama2019/linux_libraries.html \n\n")
+    message("Some of the packages (e.g. 'Cairo', 'mzR', rgl', 'RCurl', 'tiff', 'XML') that failed to install may require additional system libraries.*  Please check the documentation of these packages for unsatisfied dependencies.\n\n*).  A list of required libraries for Ubuntu can be found at http://www.huber.embl.de/users/msmith/csama2019/linux_libraries.html \n\n")
   }
 }

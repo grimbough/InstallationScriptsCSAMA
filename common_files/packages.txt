@@ -12,7 +12,7 @@ TxRegInfra
 ## Laurent Gatto (LG)
 MSnbase
 statOmics/MSqRob
-msdata (>= 0.24.1)
+msdata
 magrittr
 dplyr
 ggplot2
@@ -38,6 +38,7 @@ fdrtool
 ggbeeswarm
 ggplot2
 IHW
+magick
 parallel
 RColorBrewer
 readr
@@ -59,7 +60,16 @@ magrittr
 pander
 png
 
-## Davide Risso (DR) 
+## Davide Risso (DR)
+zinbwave
+scater
+scran
+SingleCellExperiment
+slingshot
+batchelor
+clusterExperiment
+scRNAseq
+TENxPBMCData
 
 ## Lori Shepherd (LS)
 Biostrings
