@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 wget="wget -r -np -l 1 -A gz,zip,tgz -erobots=off"
-R_ver=3.5
-Bioc_ver=3.7
+R_ver=3.6
+Bioc_ver=3.9
 #
 # Bioconductor
 #
