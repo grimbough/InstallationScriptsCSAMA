@@ -1,27 +1,29 @@
-Dear CSAMA’17 participants, 
+Dear CSAMA’19 participants, 
 
 This e-mail contains important instructions that you should follow before arriving at the course. 
 Due to the limited Internet connectivity at the course venue, it is necessary that you install all required software on your laptop before arriving. Because of the range of topics covered in the course you will need to download a large number of packages, so it is really helpful to do this in advance.  To do so, please follow these steps.  
 
 Mandatory steps:
 
-1. Please install the current release version of R (version 3.4.0).  For more instructions, please check https://cran.r-project.org/
+1. Please install the current release version of R (version 3.6.1).  For more instructions, please check https://cran.r-project.org/
 
 2. Please install and set up Git. One of our lecturers, Jenny Bryan, has some excellent instructions available at http://happygitwithr.com/install-git.html
 
 If you are using Windows we recommend Git-For-Windows (https://git-for-windows.github.io/) and if you are using a Mac our suggestion is Git-SCM (https://git-scm.com/downloads)
 
-3. Install a recent version of RStudio (version 1.0.143 or higher). Instructions are available here: https://www.rstudio.com/products/rstudio/download/
+3. Install a recent version of RStudio (version 1.2.1335 or higher). Instructions are available here: https://www.rstudio.com/products/rstudio/download/
 
-4. After installing all of the above, please open RStudio and copy the line below into your R prompt:
+4. (ONLY FOR LINUX USERS!)  If you use Linux it is likely you will need to install some additional system libraries. An example installation of the required libraries for Ubuntu 19.04 can be found at https://www.huber.embl.de/users/msmith/csama2019/linux_libraries.html You may need to adjust this for your own Linux distribution.
 
-  source("http://www-huber.embl.de/users/msmith/csama2017/install_packages.R")
+5. After installing all of the above, please open RStudio and copy the line below into your R prompt:
+
+  source("http://www-huber.embl.de/users/msmith/csama2019/install_packages.R")
 
 The script will check if you have the versions of R, Bioconductor and RStudio that are required for the course. The script will also install the R/Bioconductor packages needed for the course. The script might trigger a question about whether you would like to update old packages, please select the option to update “all”.  This process may take a long time, it is generally OK to leave it running after you have answered the initial questions.
 
 If you encounter any errors, please pay close attention to the messages displayed, they may contain further instructions. 
 
-For questions regarding software installation, please contact any or all of Mike Smith (mike.smith [at] embl.de), Vlad Kim (vkim [at] embl.de) and Lori Shepherd (lori.shepherd [at] roswellpark.org)
+For questions regarding software installation, please contact any or all of Mike Smith (mike.smith [at] embl.de) or Lori Shepherd (lori.shepherd [at] roswellpark.org)
 
 Best regards, 
-The CSAMA'17 organizers
+The CSAMA'19 organizers
