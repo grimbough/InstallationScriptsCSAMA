@@ -14,6 +14,8 @@ pkgs = readLines("../common_files/packages.txt")
 pkgs = pkgs[nchar(pkgs)>0]
 # remove comments
 pkgs = pkgs[!grepl("^#", pkgs)]
+# remove trailing whitespace
+pkgs <- gsub(x = pkgs, pattern = " +$", replacement = "")
 # intersect
 pkgs <- unique(pkgs)
 
