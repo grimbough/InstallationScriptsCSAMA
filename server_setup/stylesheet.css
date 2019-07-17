@@ -12,12 +12,12 @@ body {
     font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
     color: #333;
     background-color: #eeeeee;
-    padding:5px;
+    padding: 5px;
+    display: block;
 }
 
 ol {
     margin: 0px;
-    
 }
 
 /* links are simply blue, hovering slightly less blue */
